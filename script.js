@@ -514,6 +514,20 @@ const foods = rawFoods.map(row => ({
 
 console.assert(foods.length === 100, "Expected 100 dishes");
 
+// Available centuries are derived from the original dish database.
+// Keep intermediate centuries as plausible answers.
+const availableCenturies = foods.map(food => century(food.year));
+const firstCentury = Math.min(...availableCenturies);
+const lastCentury = Math.max(...availableCenturies);
+const defaultCentury = Math.min(lastCentury, Math.max(firstCentury, 20));
+
+function centuryOptions(selected = defaultCentury) {
+  return Array.from({ length: lastCentury - firstCentury + 1 }, (_, i) => {
+    const number = firstCentury + i;
+    return `<option value="${number}" ${number === Number(selected) ? "selected" : ""}>${roman(number)} ${escapeHTML(t("centuryUnit"))}</option>`;
+  }).join("");
+}
+
 const specs = [
   ["cal", "calories", 900],
   ["protein", "protein", 100],
@@ -1090,15 +1104,7 @@ function render() {
     <label>
       ${escapeHTML(t("century"))}:
       <select id="century">
-        ${Array.from({ length: 22 }, (_, i) => {
-          const number = i + 1;
-
-          return `
-            <option value="${number}" ${number === 20 ? "selected" : ""}>
-              ${roman(number)} ${escapeHTML(t("centuryUnit"))}
-            </option>
-          `;
-        }).join("")}
+        ${centuryOptions()}
       </select>
     </label>
   `;
@@ -1536,20 +1542,10 @@ function updateLanguage() {
     const oldCentury = $("century")?.value;
 
     // Rebuild only the answer controls.
-    const centuryOptions = Array.from({ length: 22 }, (_, i) => {
-      const number = i + 1;
-
-      return `
-        <option value="${number}">
-          ${roman(number)} ${escapeHTML(t("centuryUnit"))}
-        </option>
-      `;
-    }).join("");
-
     let html = `
       <label>
         ${escapeHTML(t("century"))}:
-        <select id="century">${centuryOptions}</select>
+        <select id="century">${centuryOptions(oldCentury || defaultCentury)}</select>
       </label>
     `;
 
@@ -1573,7 +1569,7 @@ function updateLanguage() {
 
     $("sliders").innerHTML = html;
 
-    $("century").value = oldCentury || "20";
+    $("century").value = oldCentury || String(defaultCentury);
 
     for (const [key] of specs) {
       $(key).addEventListener("input", event => {
