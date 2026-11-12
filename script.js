@@ -3404,6 +3404,7 @@ let mapReady = false;
 let mapLoading = false;
 let mapFailed = false;
 let activeMapKind = null;
+let mapRequestId = 0;
 const ITALY_REGIONS = [...new Set(italianRegionalFoods.map(food => food.region))].sort();
 async function fetchRegionData() {
   const urls = [
@@ -3441,8 +3442,13 @@ const normalizeRegion = name => {
 };
 async function loadActiveMap() {
   if (!countryMap) return;
+  const requestId = ++mapRequestId;
   const kind = challenge;
   if (activeMapKind === kind && countryLayer) {
+    mapFailed = false;
+    mapReady = true;
+    show("originFallback", false);
+    $("worldMap").style.display = "block";
     setTimeout(() => countryMap.invalidateSize(), 150);
     return;
   }
@@ -3450,6 +3456,7 @@ async function loadActiveMap() {
   updateMapLabels();
   try {
     const data = kind === "world" ? await fetchCountryData() : (kind === "italy" ? await fetchRegionData() : await fetchOtherRegionData(kind));
+    if (requestId !== mapRequestId) return; // ignore responses from previous game/mode
     if (countryLayer) countryMap.removeLayer(countryLayer);
     selectedLayer = null;
     countryLayer = L.geoJSON(data, {
@@ -3472,10 +3479,15 @@ async function loadActiveMap() {
     else countryMap.setView([18,8],2);
     setTimeout(() => countryMap.invalidateSize(), 180);
   } catch (error) {
-    console.error(error);
+    if (requestId !== mapRequestId) return;
+    console.error("DISHUP map boundary loading failed:", kind, error);
     mapFailed = true;
+    mapReady = false;
+    activeMapKind = null;
     showMapFallback();
-  } finally { mapLoading = false; updateMapLabels(); }
+  } finally {
+    if (requestId === mapRequestId) { mapLoading = false; updateMapLabels(); }
+  }
 }
 
 
@@ -3581,29 +3593,19 @@ function selectCountry(name, layer = null) {
 
 function resetCountryMap() {
   selectedCountry = "";
-
-  if (selectedLayer && countryLayer) {
-    countryLayer.resetStyle(selectedLayer);
-  }
-
+  if (selectedLayer && countryLayer) countryLayer.resetStyle(selectedLayer);
   selectedLayer = null;
   $("origin").value = "";
-
   show("mapAnswer", true);
-
-  if (mapFailed) {
-    showMapFallback();
+  // Never let a previous network error permanently disable maps.
+  mapFailed = false;
+  show("originFallback", false);
+  $("worldMap").style.display = "block";
+  if (countryMap) {
+    loadActiveMap();
   } else {
-    show("originFallback", false);
-    $("worldMap").style.display = "block";
-
-    if (mapReady && countryMap) {
-      loadActiveMap();
-    } else {
-      initializeCountryMap();
-    }
+    initializeCountryMap();
   }
-
   updateMapLabels();
 }
 
@@ -3637,7 +3639,8 @@ async function fetchCountryData() {
 }
 
 async function initializeCountryMap() {
-  if (mapReady || mapLoading) return;
+  if (countryMap) return loadActiveMap();
+  if (mapLoading) return;
 
   mapLoading = true;
   updateMapLabels();
@@ -3664,6 +3667,7 @@ async function initializeCountryMap() {
       ).addTo(countryMap);
     }
 
+    mapLoading = false;
     await loadActiveMap();
 
   } catch (error) {
@@ -3678,7 +3682,8 @@ async function initializeCountryMap() {
 }
 
 function showMapFallback() {
-  $("worldMap").style.display = "none";
+  // Keep the map container visible so Leaflet can recover on the next attempt.
+  $("worldMap").style.display = "block";
   show("originFallback", true);
 
   $("origin").onchange = function () {
