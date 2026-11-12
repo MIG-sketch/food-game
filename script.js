@@ -577,6 +577,19 @@ function shuffle(items) {
 }
 
 /* ===================================================
+   ANALYTICS — ANONYMOUS GAME EVENTS
+   =================================================== */
+
+function trackGameEvent(eventName, details = {}) {
+  if (typeof window.gtag !== "function") return;
+  try {
+    window.gtag("event", eventName, details);
+  } catch (error) {
+    console.warn("Analytics event unavailable", error);
+  }
+}
+
+/* ===================================================
    GAME STATE
    =================================================== */
 
@@ -677,11 +690,24 @@ function start() {
   show("game", true);
 
   render();
+
+  trackGameEvent("game_start", {
+    game_mode: mode,
+    player_count: players.length,
+    total_rounds: order.length
+  });
 }
 
 function returnToMenu() {
   if (phase === "playing" && !confirm(t("confirmExit"))) {
     return;
+  }
+
+  if (phase === "playing" || phase === "handoff" || phase === "results") {
+    trackGameEvent("game_abandon", {
+      game_mode: mode,
+      completed_rounds: history.length
+    });
   }
 
   stopTimer();
@@ -1335,6 +1361,12 @@ function advance() {
 
     renderFinal();
     updateBanner();
+
+    trackGameEvent("game_complete", {
+      game_mode: mode,
+      player_count: players.length,
+      total_rounds: order.length
+    });
     return;
   }
 
