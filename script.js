@@ -3426,12 +3426,39 @@ const GEO_CODES = {france:"FRA",spain:"ESP",japan:"JPN",mexico:"MEX",india:"IND"
 async function fetchOtherRegionData(kind) {
   const iso = GEO_CODES[kind];
   if (!iso) throw new Error("Unknown country: " + kind);
-  const response = await fetch(`https://www.geoboundaries.org/api/current/gbOpen/${iso}/ADM1/`);
-  if (!response.ok) throw new Error("Boundary metadata unavailable");
-  const meta = await response.json();
-  const geo = await fetch(meta.simplifiedGeometryGeoJSON || meta.gjDownloadURL);
-  if (!geo.ok) throw new Error("Boundary data unavailable");
-  return geo.json();
+  // First try static GitHub mirrors: they do not require the geoBoundaries API.
+  const mirrors = [
+    `https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/${iso}/ADM1/geoBoundaries-${iso}-ADM1_simplified.geojson`,
+    `https://cdn.jsdelivr.net/gh/wmgeolab/geoBoundaries@main/releaseData/gbOpen/${iso}/ADM1/geoBoundaries-${iso}-ADM1_simplified.geojson`
+  ];
+  const failures = [];
+  for (const url of mirrors) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      if (data.type === "FeatureCollection" && data.features?.length > 1) return data;
+      throw Error("Invalid regional GeoJSON");
+    } catch (error) { failures.push(`${url}: ${error.message}`); }
+  }
+  // API fallback. Metadata format and endpoint have changed between releases.
+  for (const endpoint of [
+    `https://www.geoboundaries.org/api/current/gbOpen/${iso}/ADM1/`,
+    `https://www.geoboundaries.org/api/current/gbOpen/${iso}/ADM1`
+  ]) {
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw Error(`HTTP ${response.status}`);
+      const meta = await response.json();
+      const url = meta.simplifiedGeometryGeoJSON || meta.gjDownloadURL;
+      if (!url) throw Error("No geometry URL");
+      const geo = await fetch(url);
+      if (!geo.ok) throw Error(`HTTP ${geo.status}`);
+      const data = await geo.json();
+      if (data.type === "FeatureCollection" && data.features?.length > 1) return data;
+    } catch (error) { failures.push(`${endpoint}: ${error.message}`); }
+  }
+  throw new Error(`Regional map for ${kind} unavailable. ${failures.join(" | ")}`);
 }
 const normalizeRegion = name => {
   const aliases = {"Trentino-Alto Adige/Südtirol":"Trentino-Alto Adige", "Trentino-Alto Adige/Suedtirol":"Trentino-Alto Adige", "Valle d'Aosta/Vallée d'Aoste":"Valle d'Aosta", "Valle d’Aosta":"Valle d'Aosta", "Friuli Venezia Giulia":"Friuli-Venezia Giulia", "Emilia Romagna":"Emilia-Romagna"};
@@ -3727,6 +3754,12 @@ function render() {
 
   setText("food", food.emoji);
   setText("dish", food.name);
+  if (challenge !== "world") {
+    setText("dishDescription", nationalDishDescription(food));
+    show("dishDescription", true);
+  } else {
+    show("dishDescription", false);
+  }
   setText("submit", t("submit"));
 
   updateBanner();
