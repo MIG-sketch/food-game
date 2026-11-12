@@ -153,6 +153,16 @@
         font-size: 13px;
       }
     }
+
+    /* RULES BELOW THE GAME MODE BUTTONS */
+    #menuRules { margin-top: 24px; padding-top: 18px; border-top: 1px solid #cce7f4; color: #28516a; line-height: 1.55; }
+    #menuRules h3 { margin: 0 0 8px; font-size: 18px; color: #123e55; }
+    #menuRules p { margin: 0 0 12px; font-size: 14px; }
+    #menuRules .rulesGrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 18px; margin: 10px 0; }
+    #menuRules .ruleItem { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid #e3f1f7; font-size: 13px; }
+    #menuRules .ruleItem strong { white-space: nowrap; color: #0876a5; }
+    #menuRules .rulesNote { font-size: 12px; color: #587d90; }
+    @media(max-width:600px) { #menuRules .rulesGrid { grid-template-columns: 1fr; } }
   </style>
 </head>
 
@@ -203,6 +213,24 @@
       <button id="onlineButton" onclick="setMode('online')">
         🌐 Online multiplayer
       </button>
+    </div>
+
+
+    <!-- EXPLANATION: IN THE MAIN MENU, BELOW THE THREE BUTTONS -->
+    <div id="menuRules" aria-label="Game rules">
+      <h3 id="rulesHeading">Come si gioca?</h3>
+      <p id="rulesIntro">Indovina il paese d'origine, il secolo e i valori nutrizionali di 5 piatti casuali. Hai 60 secondi per turno. Più sei preciso, più punti guadagni!</p>
+      <h3 id="rulesScoreHeading">Come si ottengono i punti?</h3>
+      <div class="rulesGrid">
+        <div class="ruleItem"><span id="ruleCountry">🌍 Paese corretto</span><strong>7 pt</strong></div>
+        <div class="ruleItem"><span id="ruleCentury">📅 Secolo esatto / adiacente</span><strong>10 / 7 pt</strong></div>
+        <div class="ruleItem"><span id="ruleCalories">🔥 Calorie</span><strong>7 / 3 pt</strong></div>
+        <div class="ruleItem"><span id="ruleProtein">🥩 Proteine</span><strong>7 / 3 pt</strong></div>
+        <div class="ruleItem"><span id="ruleFat">🧈 Grassi</span><strong>7 / 3 pt</strong></div>
+        <div class="ruleItem"><span id="ruleCarbs">🍞 Carboidrati</span><strong>7 / 3 pt</strong></div>
+      </div>
+      <p class="rulesNote" id="rulesTolerance">Valori nutrizionali: 7 punti se sei entro ±50 kcal o ±5 g; 3 punti entro ±100 kcal o ±10 g. Altrimenti 0.</p>
+      <p class="rulesNote" id="rulesMaximum"><strong>Massimo: 45 punti per piatto, 225 per partita.</strong></p>
     </div>
 
     <div id="partySetup" class="hidden">
@@ -1039,6 +1067,33 @@
       }
     });
 
+  })();
+  </script>
+
+
+  <!-- MAIN MENU RULES: FIVE LANGUAGES, WITHOUT CHANGING GAME LOGIC -->
+  <script>
+  (function () {
+    "use strict";
+    const rules = {
+      it: ["Come si gioca?", "Indovina il paese d'origine, il secolo e i valori nutrizionali di 5 piatti casuali. Hai 60 secondi per turno. Più sei preciso, più punti guadagni!", "Come si ottengono i punti?", "🌍 Paese corretto", "📅 Secolo esatto / adiacente", "🔥 Calorie", "🥩 Proteine", "🧈 Grassi", "🍞 Carboidrati", "Valori nutrizionali: 7 punti se sei entro ±50 kcal o ±5 g; 3 punti entro ±100 kcal o ±10 g. Altrimenti 0.", "Massimo: 45 punti per piatto, 225 per partita."],
+      en: ["How to play", "Guess the country of origin, century and nutritional values of 5 random dishes. You have 60 seconds per turn. The closer your guesses, the more points you earn!", "How are points awarded?", "🌍 Correct country", "📅 Exact / adjacent century", "🔥 Calories", "🥩 Protein", "🧈 Fat", "🍞 Carbohydrates", "Nutrition: 7 points within ±50 kcal or ±5 g; 3 points within ±100 kcal or ±10 g. Otherwise 0.", "Maximum: 45 points per dish, 225 per game."],
+      fr: ["Comment jouer ?", "Devinez le pays d'origine, le siècle et les valeurs nutritionnelles de 5 plats aléatoires. Vous avez 60 secondes par tour. Plus vous êtes précis, plus vous gagnez de points !", "Comment gagner des points ?", "🌍 Pays correct", "📅 Siècle exact / voisin", "🔥 Calories", "🥩 Protéines", "🧈 Lipides", "🍞 Glucides", "Nutrition : 7 points à ±50 kcal ou ±5 g ; 3 points à ±100 kcal ou ±10 g. Sinon 0.", "Maximum : 45 points par plat, 225 par partie."],
+      es: ["¿Cómo se juega?", "Adivina el país de origen, el siglo y los valores nutricionales de 5 platos aleatorios. Tienes 60 segundos por turno. ¡Cuanto más te acerques, más puntos ganas!", "¿Cómo se consiguen puntos?", "🌍 País correcto", "📅 Siglo exacto / adyacente", "🔥 Calorías", "🥩 Proteínas", "🧈 Grasas", "🍞 Carbohidratos", "Nutrición: 7 puntos con ±50 kcal o ±5 g; 3 puntos con ±100 kcal o ±10 g. Si no, 0.", "Máximo: 45 puntos por plato, 225 por partida."],
+      de: ["Wie spielt man?", "Errate das Herkunftsland, das Jahrhundert und die Nährwerte von 5 zufälligen Gerichten. Du hast 60 Sekunden pro Runde. Je genauer du bist, desto mehr Punkte bekommst du!", "Wie gibt es Punkte?", "🌍 Richtiges Land", "📅 Genaues / benachbartes Jahrhundert", "🔥 Kalorien", "🥩 Eiweiß", "🧈 Fett", "🍞 Kohlenhydrate", "Nährwerte: 7 Punkte bei ±50 kcal oder ±5 g; 3 Punkte bei ±100 kcal oder ±10 g. Sonst 0.", "Maximum: 45 Punkte pro Gericht, 225 pro Spiel."]
+    };
+    const ids = ["rulesHeading", "rulesIntro", "rulesScoreHeading", "ruleCountry", "ruleCentury", "ruleCalories", "ruleProtein", "ruleFat", "ruleCarbs", "rulesTolerance", "rulesMaximum"];
+    function updateRules() {
+      const select = document.getElementById("languageSelect");
+      const lang = select && rules[select.value] ? select.value : "it";
+      ids.forEach((id, i) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = rules[lang][i];
+      });
+    }
+    const select = document.getElementById("languageSelect");
+    if (select) select.addEventListener("change", updateRules);
+    updateRules();
   })();
   </script>
 
