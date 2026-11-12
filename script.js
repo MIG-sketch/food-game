@@ -3426,6 +3426,21 @@ const GEO_CODES = {france:"FRA",spain:"ESP",japan:"JPN",mexico:"MEX",india:"IND"
 async function fetchOtherRegionData(kind) {
   const iso = GEO_CODES[kind];
   if (!iso) throw new Error("Unknown country: " + kind);
+  // Public ADM1 datasets. These exact URLs have been checked for existence.
+  const directSources = {
+    france: "https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/france-regions.geojson",
+    spain: "https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/spain-communities.geojson",
+    japan: "https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/japan.geojson",
+    mexico: "https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/mexico.geojson",
+    india: "https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/india.geojson"
+  };
+  try {
+    const response = await fetch(directSources[kind]);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const geo = await response.json();
+    if (geo.type !== "FeatureCollection" || geo.features?.length < 5) throw new Error("Invalid regional geometry");
+    return geo;
+  } catch (error) { console.warn("Primary regional map source failed", kind, error); }
   // First try static GitHub mirrors: they do not require the geoBoundaries API.
   const mirrors = [
     `https://raw.githubusercontent.com/wmgeolab/geoBoundaries/main/releaseData/gbOpen/${iso}/ADM1/geoBoundaries-${iso}-ADM1_simplified.geojson`,
@@ -3450,7 +3465,7 @@ async function fetchOtherRegionData(kind) {
       const response = await fetch(endpoint);
       if (!response.ok) throw Error(`HTTP ${response.status}`);
       const meta = await response.json();
-      const url = meta.simplifiedGeometryGeoJSON || meta.gjDownloadURL;
+      const url = meta.simplifiedGeometryGeoJSON || meta.gjDownloadURL || meta.staticDownloadLink;
       if (!url) throw Error("No geometry URL");
       const geo = await fetch(url);
       if (!geo.ok) throw Error(`HTTP ${geo.status}`);
@@ -3465,7 +3480,16 @@ const normalizeRegion = name => {
   const cleaned = aliases[name] || name;
   const all = foods.filter(f=>f.origin===challengeCountry && f.region).map(f=>f.region);
   const fold = v => String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, "").toLowerCase();
-  return all.find(r => fold(r)===fold(cleaned)) || cleaned;
+  const translated = {
+    "ile de france":"Île-de-France", "provence alpes cote d azur":"Provence-Alpes-Côte d’Azur",
+    "andalusia":"Andalucía", "catalonia":"Cataluña", "valencian community":"Comunidad Valenciana",
+    "basque country":"País Vasco", "galicia":"Galicia", "balearic islands":"Islas Baleares",
+    "canary islands":"Canarias", "castile and leon":"Castilla y León", "castile la mancha":"Castilla-La Mancha",
+    "madrid":"Comunidad de Madrid", "navarre":"Navarra", "aragon":"Aragón",
+    "hokkaido":"Hokkaido", "osaka":"Osaka", "tokyo":"Tokyo", "kyoto":"Kyoto"
+  };
+  const candidate = translated[fold(cleaned)] || cleaned;
+  return all.find(r => fold(r)===fold(candidate)) || candidate;
 };
 async function loadActiveMap() {
   if (!countryMap) return;
@@ -3479,6 +3503,14 @@ async function loadActiveMap() {
     setTimeout(() => countryMap.invalidateSize(), 150);
     return;
   }
+  // Clear the previous map immediately: never show the world when a national challenge is selected.
+  if (countryLayer) {
+    countryMap.removeLayer(countryLayer);
+    countryLayer = null;
+  }
+  selectedLayer = null;
+  activeMapKind = null;
+  mapReady = false;
   mapLoading = true;
   updateMapLabels();
   try {
@@ -3491,7 +3523,7 @@ async function loadActiveMap() {
       onEachFeature(feature, layer) {
         const props = feature.properties || {};
         const name = kind !== "world"
-          ? normalizeRegion(props.reg_name || props.den_reg || props.shapeName || props.name || props.NAME_1 || "")
+          ? normalizeRegion(props.reg_name || props.den_reg || props.shapeName || props.name_english || props.name || props.NAME_1 || "")
           : (props.ADMIN || props.name || props.NAME || props.NAME_EN || "");
         layer.bindTooltip(name, {sticky:true});
         layer.on("click", () => selectCountry(name, layer));
@@ -3511,6 +3543,7 @@ async function loadActiveMap() {
     mapFailed = true;
     mapReady = false;
     activeMapKind = null;
+    if (countryLayer) { countryMap.removeLayer(countryLayer); countryLayer = null; }
     showMapFallback();
   } finally {
     if (requestId === mapRequestId) { mapLoading = false; updateMapLabels(); }
@@ -3572,7 +3605,16 @@ function canonicalCountry(value) {
   const cleaned = aliases[name] || name;
   const all = foods.filter(f=>f.origin===challengeCountry && f.region).map(f=>f.region);
   const fold = v => String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, "").toLowerCase();
-  return all.find(r => fold(r)===fold(cleaned)) || cleaned;
+  const translated = {
+    "ile de france":"Île-de-France", "provence alpes cote d azur":"Provence-Alpes-Côte d’Azur",
+    "andalusia":"Andalucía", "catalonia":"Cataluña", "valencian community":"Comunidad Valenciana",
+    "basque country":"País Vasco", "galicia":"Galicia", "balearic islands":"Islas Baleares",
+    "canary islands":"Canarias", "castile and leon":"Castilla y León", "castile la mancha":"Castilla-La Mancha",
+    "madrid":"Comunidad de Madrid", "navarre":"Navarra", "aragon":"Aragón",
+    "hokkaido":"Hokkaido", "osaka":"Osaka", "tokyo":"Tokyo", "kyoto":"Kyoto"
+  };
+  const candidate = translated[fold(cleaned)] || cleaned;
+  return all.find(r => fold(r)===fold(candidate)) || candidate;
 }
 
 function updateMapLabels() {
@@ -3709,8 +3751,8 @@ async function initializeCountryMap() {
 }
 
 function showMapFallback() {
-  // Keep the map container visible so Leaflet can recover on the next attempt.
-  $("worldMap").style.display = "block";
+  // Never display an unrelated map when regional boundaries fail to load.
+  $("worldMap").style.display = "none";
   show("originFallback", true);
 
   $("origin").onchange = function () {
