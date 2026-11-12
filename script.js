@@ -1516,6 +1516,7 @@ function renderFinal() {
 function updateLanguage() {
   document.documentElement.lang = language;
   $("languageSelect").value = language;
+  document.dispatchEvent(new CustomEvent("dishup:languagechange", { detail: { language } }));
 
   setText("languageLabel", t("language"));
   setText("setupTitle", t("choose"));
@@ -1641,6 +1642,10 @@ function initialize() {
 
   updateLanguage();
 }
+
+window.addEventListener("pageshow", () => {
+  if (document.getElementById("languageSelect")) updateLanguage();
+});
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initialize);
