@@ -1,3 +1,307 @@
-<!doctype html><html lang="it"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DISHUP! | Play · Discover · Order</title><meta name="description" content="DISHUP! is a food trivia game. Guess the origin, century and nutrition of famous dishes. Play solo or with friends."><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="style.css"><div id="languagePanel"><label style="margin:0"><span id="languageLabel">Lingua</span> <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option></select></label></div><header><h1>DISHUP<span style="color:#129bd2">!</span></h1><b>PLAY · DISCOVER · ORDER</b></header><aside id="scoreBanner" class="hidden" aria-live="polite"></aside><section class="panel" id="setup"><h2>Scegli come giocare</h2><div class="grid"><button onclick="setMode('solo')">🎯 Single player</button><button onclick="setMode('party')">🎉 Party (stesso schermo)</button><button onclick="setMode('online')">🌐 Online multiplayer</button></div><div id="partySetup" class="hidden"><p>Giocatori (separati da virgole)</p><input id="names" value="Alex, Sam" style="width:90%"><button onclick="start()">Inizia</button></div><p id="notice" class="muted"></p></section><section id="game" class="panel hidden"><div id="status"></div><p id="timer" aria-live="off">⏱ 60 s</p><div id="food"></div><img id="dishPhoto" alt="Fotografia del piatto" referrerpolicy="no-referrer"><p id="photoCredit" class="hidden">Foto: Wikimedia Commons / Wikipedia</p><h2 id="dish"></h2><p class="muted">Indovina il paese d’origine, il secolo e i valori nutrizionali per 100 g. I secoli sono riferimenti storici convenzionali e talvolta controversi.</p><div id="mapAnswer"><strong id="mapLabel">Origine — seleziona un paese sulla mappa</strong><p id="selectedCountry" aria-live="polite">Nessun paese selezionato</p><div id="worldMap" role="application" aria-label="Mappa interattiva del mondo"></div><p id="mapHelp" class="muted">Tocca un paese per selezionarlo. Puoi ingrandire e spostare la mappa.</p></div><label id="originFallback" class="hidden">Origine <select id="origin"><option value="Italia">Italia</option><option value="Giappone">Giappone</option><option value="Messico">Messico</option><option value="India">India</option><option value="Francia">Francia</option><option value="Perù">Perù</option><option value="Libano">Libano</option><option value="Stati Uniti">Stati Uniti</option><option value="Regno Unito">Regno Unito</option></select></label><div id="sliders"></div><button id="submit" onclick="submitGuess()">Conferma risposte</button><div id="handoff" class="handoff hidden"><h3 id="handoffTitle"></h3><p id="handoffText"></p><button id="handoffButton" onclick="beginNextPlayer()">Inizia il turno</button></div><div id="results"></div><button id="next" class="hidden" onclick="advance()">Continua →</button></section><section class="panel hidden" id="finish"><h2>Partita finita!</h2><div id="leaderboard"></div><div id="discover" class="discover"><h2 id="discoverTitle">Scopri i piatti nella tua città</h2><p id="discoverIntro">Hai giocato con questi piatti: ora puoi cercare ristoranti che li servono. I risultati si aprono su Google Maps; DISHUP! non verifica ancora menu o disponibilità.</p><label id="cityLabel">Città <input id="cityInput" placeholder="Es. Barcelona" autocomplete="address-level2"></label><div id="dishLinks" class="dish-links"></div><p id="discoverNote" class="muted">Questa è una ricerca esterna, non una integrazione con Glovo.</p></div><button onclick="location.reload()">Nuova partita</button></section><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="script.js"></script></html>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>DISHUP! | Play · Discover · Order</title>
+
+  <meta
+    name="description"
+    content="DISHUP! is a food trivia game. Guess the origin, century and nutrition of famous dishes. Play solo or with friends."
+  >
+
+  <!-- Leaflet: mappa interattiva -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <!-- CSS originale del gioco -->
+  <link rel="stylesheet" href="./style.css?v=3">
+
+  <!-- Stili essenziali di sicurezza -->
+  <style>
+    .hidden {
+      display: none !important;
+    }
+
+    #worldMap {
+      width: 100%;
+      height: 360px;
+      min-height: 360px;
+      background: #dff4fc;
+      border: 2px solid #277fa8;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #mapAnswer {
+      margin: 20px 0;
+    }
+
+    #selectedCountry {
+      font-weight: 700;
+      color: #087fab;
+    }
+
+    #mapHelp {
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      #worldMap {
+        height: 300px;
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Selezione lingua -->
+  <div id="languagePanel">
+    <label style="margin:0">
+      <span id="languageLabel">Lingua</span>
+
+      <select
+        id="languageSelect"
+        onchange="setLanguage(this.value)"
+        aria-label="Language"
+      >
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- Intestazione -->
+  <header>
+    <h1>
+      DISHUP<span style="color:#129bd2">!</span>
+    </h1>
+
+    <b>PLAY · DISCOVER · ORDER</b>
+  </header>
+
+  <!-- Punteggi -->
+  <aside
+    id="scoreBanner"
+    class="hidden"
+    aria-live="polite"
+  ></aside>
+
+  <!-- Schermata iniziale -->
+  <section class="panel" id="setup">
+
+    <h2>Scegli come giocare</h2>
+
+    <div class="grid">
+
+      <button onclick="setMode('solo')">
+        🎯 Single player
+      </button>
+
+      <button onclick="setMode('party')">
+        🎉 Party (stesso schermo)
+      </button>
+
+      <button onclick="setMode('online')">
+        🌐 Online multiplayer
+      </button>
+
+    </div>
+
+    <div id="partySetup" class="hidden">
+
+      <p>Giocatori (separati da virgole)</p>
+
+      <input
+        id="names"
+        value="Alex, Sam"
+        style="width:90%"
+      >
+
+      <button onclick="start()">
+        Inizia
+      </button>
+
+    </div>
+
+    <p id="notice" class="muted"></p>
+
+  </section>
+
+  <!-- Schermata di gioco -->
+  <section id="game" class="panel hidden">
+
+    <div id="status"></div>
+
+    <p id="timer" aria-live="off">
+      ⏱ 60 s
+    </p>
+
+    <div id="food"></div>
+
+    <img
+      id="dishPhoto"
+      alt="Fotografia del piatto"
+      referrerpolicy="no-referrer"
+    >
+
+    <p id="photoCredit" class="hidden">
+      Foto: Wikimedia Commons / Wikipedia
+    </p>
+
+    <h2 id="dish"></h2>
+
+    <p class="muted">
+      Indovina il paese d’origine, il secolo e i valori
+      nutrizionali per 100 g. I secoli sono riferimenti
+      storici convenzionali e talvolta controversi.
+    </p>
+
+    <!-- MAPPA DEL MONDO -->
+    <div id="mapAnswer">
+
+      <strong id="mapLabel">
+        Origine — seleziona un paese sulla mappa
+      </strong>
+
+      <p id="selectedCountry" aria-live="polite">
+        Nessun paese selezionato
+      </p>
+
+      <div
+        id="worldMap"
+        role="application"
+        aria-label="Mappa interattiva del mondo"
+      ></div>
+
+      <p id="mapHelp" class="muted">
+        Tocca un paese per selezionarlo.
+        Puoi ingrandire e spostare la mappa.
+      </p>
+
+    </div>
+
+    <!-- Menu originale conservato per compatibilità -->
+    <label id="originFallback" class="hidden">
+
+      Origine
+
+      <select id="origin">
+
+        <option value="Italia">Italia</option>
+        <option value="Giappone">Giappone</option>
+        <option value="Messico">Messico</option>
+        <option value="India">India</option>
+        <option value="Francia">Francia</option>
+        <option value="Perù">Perù</option>
+        <option value="Libano">Libano</option>
+        <option value="Stati Uniti">Stati Uniti</option>
+        <option value="Regno Unito">Regno Unito</option>
+
+      </select>
+
+    </label>
+
+    <!-- Secolo e valori nutrizionali -->
+    <div id="sliders"></div>
+
+    <button
+      id="submit"
+      onclick="submitGuess()"
+    >
+      Conferma risposte
+    </button>
+
+    <!-- Passaggio al giocatore successivo -->
+    <div id="handoff" class="handoff hidden">
+
+      <h3 id="handoffTitle"></h3>
+
+      <p id="handoffText"></p>
+
+      <button
+        id="handoffButton"
+        onclick="beginNextPlayer()"
+      >
+        Inizia il turno
+      </button>
+
+    </div>
+
+    <!-- Risultati -->
+    <div id="results"></div>
+
+    <button
+      id="next"
+      class="hidden"
+      onclick="advance()"
+    >
+      Continua →
+    </button>
+
+  </section>
+
+  <!-- Fine partita -->
+  <section class="panel hidden" id="finish">
+
+    <h2>Partita finita!</h2>
+
+    <div id="leaderboard"></div>
+
+    <!-- Scoperta dei ristoranti -->
+    <div id="discover" class="discover">
+
+      <h2 id="discoverTitle">
+        Scopri i piatti nella tua città
+      </h2>
+
+      <p id="discoverIntro">
+        Hai giocato con questi piatti: ora puoi cercare
+        ristoranti che li servono. I risultati si aprono
+        su Google Maps; DISHUP! non verifica ancora
+        menu o disponibilità.
+      </p>
+
+      <label id="cityLabel">
+
+        Città
+
+        <input
+          id="cityInput"
+          placeholder="Es. Barcelona"
+          autocomplete="address-level2"
+        >
+
+      </label>
+
+      <div id="dishLinks" class="dish-links"></div>
+
+      <p id="discoverNote" class="muted">
+        Questa è una ricerca esterna,
+        non una integrazione con Glovo.
+      </p>
+
+    </div>
+
+    <button onclick="location.reload()">
+      Nuova partita
+    </button>
+
+  </section>
+
+  <!-- Libreria per la mappa -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- JavaScript originale del gioco -->
+  <script src="./script.js?v=3"></script>
+
+</body>
+</html>
