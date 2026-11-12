@@ -1,5 +1,5 @@
 [README.md](https://github.com/user-attachments/files/34738153/README.md)
-# FOOD? — Play · Discover · Order
+# DISHUP! — Play · Discover · Order
 
 A bilingual (Italian / English) browser-based food trivia game. This repository contains a **static website** ready for GitHub Pages.
 
