@@ -996,9 +996,2056 @@ const italianRegionalFoods = [
   }
 ];
 const italianOriginalRegions = {"Pizza Margherita": "Campania", "Pasta alla carbonara": "Lazio", "Tiramisù": "Veneto", "Lasagne alla bolognese": "Emilia-Romagna", "Risotto alla milanese": "Lombardia", "Pesto alla genovese": "Liguria", "Arancini": "Sicilia", "Gnocchi di patate": null, "Panna cotta": "Piemonte", "Parmigiana di melanzane": null};
+const regionalStarterFoods = [
+  {
+    "name": "Bouillabaisse",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Provence-Alpes-Côte d’Azur",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Socca",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Provence-Alpes-Côte d’Azur",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Salade niçoise",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Provence-Alpes-Côte d’Azur",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Quiche lorraine",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Grand Est",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Choucroute garnie",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Grand Est",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Flammekueche",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Grand Est",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tarte flambée",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Grand Est",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Galette bretonne",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Bretagne",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Kouign-amann",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Bretagne",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Far breton",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Bretagne",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cassoulet",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Occitanie",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Aligot",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Occitanie",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Canelé",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Nouvelle-Aquitaine",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Piperade",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Nouvelle-Aquitaine",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tartiflette",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Auvergne-Rhône-Alpes",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Gratin dauphinois",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Auvergne-Rhône-Alpes",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Bœuf bourguignon",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Bourgogne-Franche-Comté",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Gougères",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Bourgogne-Franche-Comté",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tarte Tatin",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Centre-Val de Loire",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Rillettes du Mans",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Pays de la Loire",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Welsh rarebit du Nord",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Hauts-de-France",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Ficelle picarde",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Hauts-de-France",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Brioche vendéenne",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Pays de la Loire",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Fiadone",
+    "emoji": "🍽️",
+    "origin": "Francia",
+    "region": "Corse",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Paella valenciana",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Comunitat Valenciana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Fideuà",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Comunitat Valenciana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Horchata de chufa",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Comunitat Valenciana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Gazpacho andaluz",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Andalucía",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Salmorejo",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Andalucía",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pescaíto frito",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Andalucía",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pulpo a la gallega",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Galicia",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Empanada gallega",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Galicia",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tarta de Santiago",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Galicia",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Fabada asturiana",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Asturias",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cachopo",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Asturias",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Marmitako",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "País Vasco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Bacalao al pil-pil",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "País Vasco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pintxos donostiarras",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "País Vasco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Escalivada",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Cataluña",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Crema catalana",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Cataluña",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Calçots",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Cataluña",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cocido madrileño",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Comunidad de Madrid",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Bocadillo de calamares",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Comunidad de Madrid",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Papas arrugadas",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Canarias",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mojo picón",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Canarias",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tumbet",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Illes Balears",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Ensaimada",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Illes Balears",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Migas extremeñas",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Extremadura",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pisto manchego",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Castilla-La Mancha",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cochinillo segoviano",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Castilla y León",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Patatas a la riojana",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "La Rioja",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pochas navarras",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Navarra",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Zarangollo",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Región de Murcia",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Migas aragonesas",
+    "emoji": "🍽️",
+    "origin": "Spagna",
+    "region": "Aragón",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Okonomiyaki di Osaka",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Osaka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Takoyaki",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Osaka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Kitsune udon",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Osaka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Monjayaki",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Tokyo",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Fukagawa meshi",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Tokyo",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Edomae sushi",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Tokyo",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Miso katsu",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Aichi",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Hitsumabushi",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Aichi",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tebasaki",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Aichi",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Hakata ramen",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Fukuoka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Motsunabe",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Fukuoka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mentaiko",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Fukuoka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Hiroshima okonomiyaki",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hiroshima",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Anago meshi",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hiroshima",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Kaki no dotenabe",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hiroshima",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Jingisukan",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hokkaido",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Soup curry",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hokkaido",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Ishikari nabe",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Hokkaido",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Goya champuru",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Okinawa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Okinawa soba",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Okinawa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Rafute",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Okinawa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Yudofu",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Kyoto",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Nishin soba",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Kyoto",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Kyo-tsukemono",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Kyoto",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Sanuki udon",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Kagawa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Katsuo no tataki",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Kochi",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Hoto noodles",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Yamanashi",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Sasa dango",
+    "emoji": "🍽️",
+    "origin": "Giappone",
+    "region": "Niigata",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mole poblano",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Puebla",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Chiles en nogada",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Puebla",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cemita poblana",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Puebla",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tlayudas",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Oaxaca",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mole negro",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Oaxaca",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Chapulines",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Oaxaca",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cochinita pibil",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Yucatán",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Sopa de lima",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Yucatán",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Papadzules",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Yucatán",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tacos al pastor",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Ciudad de México",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Torta de tamal",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Ciudad de México",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tlacoyos",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Ciudad de México",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Birria jalisciense",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Jalisco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Torta ahogada",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Jalisco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Carne en su jugo",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Jalisco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Cabrito regio",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Nuevo León",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Machaca con huevo",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Nuevo León",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Discada",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Chihuahua",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Burritos de Ciudad Juárez",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Chihuahua",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pescado zarandeado",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Nayarit",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Aguachile",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Sinaloa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Chilorio",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Sinaloa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pescado a la veracruzana",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Veracruz",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Zacahuil",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "San Luis Potosí",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Carnitas michoacanas",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Michoacán",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Corundas",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Michoacán",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Enchiladas mineras",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Guanajuato",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pastes",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Hidalgo",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pan de cazón",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Campeche",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pejelagarto asado",
+    "emoji": "🍽️",
+    "origin": "Messico",
+    "region": "Tabasco",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Vada pav",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Maharashtra",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Misal pav",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Maharashtra",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pav bhaji",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Maharashtra",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Dhokla",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Gujarat",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Khandvi",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Gujarat",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Undhiyu",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Gujarat",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Dal baati churma",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Rajasthan",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Ghevar",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Rajasthan",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Laal maas",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Rajasthan",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Sarson da saag",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Punjab",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Makki di roti",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Punjab",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Amritsari kulcha",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Punjab",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Hyderabadi biryani",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Telangana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mirchi ka salan",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Telangana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Double ka meetha",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Telangana",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Masala dosa",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Karnataka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Bisi bele bath",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Karnataka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mysore pak",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Karnataka",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Idli",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Tamil Nadu",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Pongal",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Tamil Nadu",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Chettinad chicken",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Tamil Nadu",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Appam",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Kerala",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Puttu",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Kerala",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Avial",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Kerala",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Rosogolla",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "West Bengal",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Shorshe ilish",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "West Bengal",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Mishti doi",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "West Bengal",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Litti chokha",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Bihar",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Chhena poda",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Odisha",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Momos di Sikkim",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Sikkim",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Bebinca",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Goa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Fish curry goana",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Goa",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Tunday kebab",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Uttar Pradesh",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  },
+  {
+    "name": "Rogan josh",
+    "emoji": "🍽️",
+    "origin": "India",
+    "region": "Jammu and Kashmir",
+    "year": 1900,
+    "cal": 200,
+    "protein": 8,
+    "fat": 9,
+    "carbs": 22,
+    "provisional": true,
+    "placeholderNutrition": true,
+    "placeholderYear": true
+  }
+];
 const foods = [
   ...originalFoods.map(food => ({...food, region: italianOriginalRegions[food.name] || null})),
-  ...italianRegionalFoods
+  ...italianRegionalFoods,
+  ...regionalStarterFoods
 ];
 console.assert(originalFoods.length === 100, "Expected 100 original dishes");
 
@@ -1107,10 +3154,34 @@ const regionalLabels = {
  de: ["Länder-Challenge", "Wähle eine Region auf der Karte", "Region", "Wähle eine Region!", "Italien — Regionen-Challenge"]
 };
 const regionalText = (i) => regionalLabels[language][i];
-function startCountryChallenge() {
-  challenge = "italy";
+function openCountrySelector() {
+  updateCountrySelectorLanguage();
+  const dialog = document.getElementById("countrySelector");
+  if (dialog && !dialog.open) dialog.showModal();
+}
+function closeCountrySelector() {
+  const dialog = document.getElementById("countrySelector");
+  if (dialog && dialog.open) dialog.close();
+}
+function selectCountryChallenge(country) {
+  if (!["italy","france","spain","japan","mexico","india"].includes(country)) return;
+  closeCountrySelector();
+  challengeCountry = ({italy:"Italia",france:"Francia",spain:"Spagna",japan:"Giappone",mexico:"Messico",india:"India"})[country];
+  challenge = country;
   mode = "solo";
   start();
+}
+function updateCountrySelectorLanguage() {
+  const labels = {
+    it:["Scegli una nazione", "Seleziona una nazione e indovina la regione di origine."],
+    en:["Choose a country", "Select a country and guess the region of origin."],
+    fr:["Choisissez un pays", "Choisissez un pays et devinez la région d'origine."],
+    es:["Elige un país", "Selecciona un país y adivina la región de origen."],
+    de:["Wähle ein Land", "Wähle ein Land und errate die Herkunftsregion."]
+  };
+  const copy = labels[language] || labels.en;
+  setText("countrySelectorTitle",copy[0]);
+  setText("countrySelectorHint",copy[1]);
 }
 
 let players = [];
@@ -1197,9 +3268,9 @@ function start() {
   }
 
   scores = Object.fromEntries(players.map(name => [name, 0]));
-  const pool = challenge === "italy"
-    ? foods.filter(food => food.origin === "Italia" && food.region)
-    : foods;
+  const pool = challenge !== "world"
+    ? foods.filter(food => food.origin === challengeCountry && food.region)
+    : originalFoods;
   order = shuffle(pool).slice(0, 5);
 
   history = [];
@@ -1215,7 +3286,7 @@ function start() {
   render();
 
   trackGameEvent("game_start", {
-    game_mode: challenge === "italy" ? "italy" : mode,
+    game_mode: challenge !== "world" ? challenge : mode,
     player_count: players.length,
     total_rounds: order.length
   });
@@ -1350,13 +3421,27 @@ async function fetchRegionData() {
   }
   throw new Error("Italy regions GeoJSON unavailable");
 }
+const GEO_CODES = {france:"FRA",spain:"ESP",japan:"JPN",mexico:"MEX",india:"IND"};
+async function fetchOtherRegionData(kind) {
+  const iso = GEO_CODES[kind];
+  if (!iso) throw new Error("Unknown country: " + kind);
+  const response = await fetch(`https://www.geoboundaries.org/api/current/gbOpen/${iso}/ADM1/`);
+  if (!response.ok) throw new Error("Boundary metadata unavailable");
+  const meta = await response.json();
+  const geo = await fetch(meta.simplifiedGeometryGeoJSON || meta.gjDownloadURL);
+  if (!geo.ok) throw new Error("Boundary data unavailable");
+  return geo.json();
+}
 const normalizeRegion = name => {
   const aliases = {"Trentino-Alto Adige/Südtirol":"Trentino-Alto Adige", "Trentino-Alto Adige/Suedtirol":"Trentino-Alto Adige", "Valle d'Aosta/Vallée d'Aoste":"Valle d'Aosta", "Valle d’Aosta":"Valle d'Aosta", "Friuli Venezia Giulia":"Friuli-Venezia Giulia", "Emilia Romagna":"Emilia-Romagna"};
-  return aliases[name] || name;
+  const cleaned = aliases[name] || name;
+  const all = foods.filter(f=>f.origin===challengeCountry && f.region).map(f=>f.region);
+  const fold = v => String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, "").toLowerCase();
+  return all.find(r => fold(r)===fold(cleaned)) || cleaned;
 };
 async function loadActiveMap() {
   if (!countryMap) return;
-  const kind = challenge === "italy" ? "italy" : "world";
+  const kind = challenge;
   if (activeMapKind === kind && countryLayer) {
     setTimeout(() => countryMap.invalidateSize(), 150);
     return;
@@ -1364,15 +3449,15 @@ async function loadActiveMap() {
   mapLoading = true;
   updateMapLabels();
   try {
-    const data = kind === "italy" ? await fetchRegionData() : await fetchCountryData();
+    const data = kind === "world" ? await fetchCountryData() : (kind === "italy" ? await fetchRegionData() : await fetchOtherRegionData(kind));
     if (countryLayer) countryMap.removeLayer(countryLayer);
     selectedLayer = null;
     countryLayer = L.geoJSON(data, {
       style: {color:"#4288a9", weight:1.5, fillColor:"#8ed6ee", fillOpacity:0.5},
       onEachFeature(feature, layer) {
         const props = feature.properties || {};
-        const name = kind === "italy"
-          ? normalizeRegion(props.reg_name || props.den_reg || props.name || props.NAME_1 || "")
+        const name = kind !== "world"
+          ? normalizeRegion(props.reg_name || props.den_reg || props.shapeName || props.name || props.NAME_1 || "")
           : (props.ADMIN || props.name || props.NAME || props.NAME_EN || "");
         layer.bindTooltip(name, {sticky:true});
         layer.on("click", () => selectCountry(name, layer));
@@ -1383,7 +3468,7 @@ async function loadActiveMap() {
     mapFailed = false;
     show("originFallback",false);
     $("worldMap").style.display = "block";
-    if (kind === "italy") countryMap.fitBounds(countryLayer.getBounds(), {padding:[12,12]});
+    if (kind !== "world") countryMap.fitBounds(countryLayer.getBounds(), {padding:[12,12]});
     else countryMap.setView([18,8],2);
     setTimeout(() => countryMap.invalidateSize(), 180);
   } catch (error) {
@@ -1445,16 +3530,19 @@ const aliases = {
 
 function canonicalCountry(value) {
   const name = String(value || "").trim();
-  return aliases[name] || name;
+  const cleaned = aliases[name] || name;
+  const all = foods.filter(f=>f.origin===challengeCountry && f.region).map(f=>f.region);
+  const fold = v => String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, "").toLowerCase();
+  return all.find(r => fold(r)===fold(cleaned)) || cleaned;
 }
 
 function updateMapLabels() {
-  setText("mapLabel", challenge === "italy" ? regionalText(1) : t("mapLabel"));
+  setText("mapLabel", challenge !== "world" ? regionalText(1) : t("mapLabel"));
 
   setText(
     "selectedCountry",
     selectedCountry
-      ? `${t("selected")}: ${challenge === "italy" ? selectedCountry : countryName(selectedCountry)}`
+      ? `${t("selected")}: ${challenge !== "world" ? selectedCountry : countryName(selectedCountry)}`
       : t("noCountry")
   );
 
@@ -1473,7 +3561,7 @@ function selectCountry(name, layer = null) {
     countryLayer.resetStyle(selectedLayer);
   }
 
-  selectedCountry = challenge === "italy" ? name : canonicalCountry(name);
+  selectedCountry = challenge !== "world" ? name : canonicalCountry(name);
   selectedLayer = layer;
 
   if (layer) {
@@ -1603,14 +3691,14 @@ function showMapFallback() {
 function setupOriginOptions() {
   const previous = $("origin").value;
 
-  const countries = challenge === "italy" ? ITALY_REGIONS : [...new Set(foods.map(food => food.origin))]
+  const countries = challenge !== "world" ? [...new Set(foods.filter(food=>food.origin===challengeCountry && food.region).map(food=>food.region))] : [...new Set(originalFoods.map(food => food.origin))]
     .sort((a, b) => countryName(a).localeCompare(countryName(b), language));
 
   $("origin").innerHTML =
     '<option value="">—</option>' +
     countries.map(country => `
       <option value="${escapeHTML(country)}">
-        ${escapeHTML(challenge === "italy" ? country : countryName(country))}
+        ${escapeHTML(challenge !== "world" ? country : countryName(country))}
       </option>
     `).join("");
 
@@ -1696,7 +3784,7 @@ function render() {
 
 function scoreAnswer(answer, food) {
   const countryPoints =
-    (challenge === "italy" ? normalizeRegion(answer.origin) === food.region : canonicalCountry(answer.origin) === canonicalCountry(food.origin))
+    (challenge !== "world" ? normalizeRegion(answer.origin) === food.region : canonicalCountry(answer.origin) === canonicalCountry(food.origin))
       ? 7 : 0;
 
   const difference = Math.abs(answer.century - century(food.year));
@@ -1732,7 +3820,7 @@ function submitGuess(timedOut = false) {
   if (submitted || phase !== "playing") return;
 
   if (!selectedCountry && !timedOut) {
-    alert(challenge === "italy" ? regionalText(3) : t("selectCountry"));
+    alert(challenge !== "world" ? regionalText(3) : t("selectCountry"));
     return;
   }
 
@@ -1808,9 +3896,9 @@ function renderRoundResults() {
     html += `
       <div class="summary">
         <h3>${escapeHTML(entry.player)} — +${r.pts} pt</h3>
-        <p>${escapeHTML(challenge === "italy" ? regionalText(2) : t("country"))}:
-          ${escapeHTML(a.origin ? (challenge === "italy" ? a.origin : countryName(a.origin)) : "—")}
-          (${escapeHTML(challenge === "italy" ? food.region : countryName(food.origin))}) — ${r.countryPoints} pt
+        <p>${escapeHTML(challenge !== "world" ? regionalText(2) : t("country"))}:
+          ${escapeHTML(a.origin ? (challenge !== "world" ? a.origin : countryName(a.origin)) : "—")}
+          (${escapeHTML(challenge !== "world" ? food.region : countryName(food.origin))}) — ${r.countryPoints} pt
         </p>
         <p>${escapeHTML(t("centuryShort"))}:
           ${roman(a.century)}
@@ -1959,7 +4047,7 @@ function renderFinalHistory() {
       const r = entry.result;
 
       const rows = [
-        [challenge === "italy" ? regionalText(2) : t("country"), a.origin ? (challenge === "italy" ? a.origin : countryName(a.origin)) : "—", challenge === "italy" ? food.region : countryName(food.origin), r.countryPoints],
+        [challenge !== "world" ? regionalText(2) : t("country"), a.origin ? (challenge !== "world" ? a.origin : countryName(a.origin)) : "—", challenge !== "world" ? food.region : countryName(food.origin), r.countryPoints],
         [t("centuryShort"), roman(a.century), roman(century(food.year)), r.centuryPoints],
         ...specs.map(([key, labelKey]) => [
           t(labelKey), a[key], food[key], r.values[key]
@@ -2062,7 +4150,8 @@ function updateLanguage() {
   setText("soloButton", t("solo"));
   setText("partyButton", t("party"));
   setText("onlineButton", t("online"));
-  setText("countryButton", "🇮🇹 " + regionalText(0));
+  setText("countryButton", "🗺️ " + regionalText(0));
+  updateCountrySelectorLanguage();
   setText("playersLabel", t("players"));
   setText("startButton", t("start"));
   setText("instructions", t("instructions"));
