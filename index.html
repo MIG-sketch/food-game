@@ -222,8 +222,8 @@
       <button id="onlineButton" onclick="setMode('online')">
         🌐 Online multiplayer
       </button>
+      <button id="countryButton" onclick="startCountryChallenge()">🇮🇹 Modalità nazione</button>
     </div>
-
 
     <!-- EXPLANATION: IN THE MAIN MENU, BELOW THE THREE BUTTONS -->
     <div id="menuRules" aria-label="Game rules">
@@ -291,6 +291,7 @@
     </label>
 
     <div id="sliders"></div>
+    <p id="dataDisclaimer" class="muted" style="font-size:.8rem">Historical dates and nutritional values are approximate. New regional dishes are provisional.</p>
 
     <button id="submit" onclick="submitGuess()"></button>
 
@@ -361,7 +362,7 @@
   <!-- LIBRARIES + GAME ENGINE -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="./script.js?v=8"></script>
+  <script src="./script.js?v=country1"></script>
 
   <!-- DISH DESCRIPTIONS -->
 
