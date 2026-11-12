@@ -1,762 +1,163 @@
-
-<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-  <title>DISHUP! | Play · Discover · Order</title>
-
-  <meta name="description"
-    content="DISHUP! Food trivia game. Discover 100 dishes from around the world.">
-
-  <link rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-  <link rel="stylesheet" href="./style.css?v=6">
-
-  <style>
-    .hidden {
-      display: none !important;
-    }
-
-    #languagePanel {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    #languagePanel label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin: 0;
-    }
-
-    #homeButton {
-      background: #dcf5ff;
-      border: 1px solid #8cc8e4;
-      border-radius: 9px;
-      padding: 6px 10px;
-      font-size: 13px;
-      color: #07577c;
-      font-weight: 750;
-      cursor: pointer;
-    }
-
-    #homeButton:hover {
-      background: #82d7f5;
-    }
-
-    #worldMap {
-      width: 100%;
-      height: 390px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .city-search {
-      position: relative;
-      width: 100%;
-      max-width: 460px;
-      margin-top: 8px;
-    }
-
-    #cityInput {
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    #citySuggestions {
-      position: absolute;
-      top: calc(100% + 5px);
-      left: 0;
-      right: 0;
-      z-index: 2000;
-      max-height: 260px;
-      overflow-y: auto;
-      background: #ffffff;
-      border: 1px solid #a7d7ed;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 48, 79, 0.14);
-    }
-
-    .city-suggestion {
-      display: block;
-      width: 100%;
-      padding: 12px 14px;
-      background: #ffffff;
-      color: #163f55;
-      border: 0;
-      border-bottom: 1px solid #e5f1f7;
-      border-radius: 0;
-      text-align: left;
-      font: inherit;
-      cursor: pointer;
-    }
-
-    .city-suggestion:last-child {
-      border-bottom: 0;
-    }
-
-    .city-suggestion:hover,
-    .city-suggestion.active {
-      background: #e5f7ff;
-    }
-
-    .city-suggestion strong {
-      display: block;
-      font-size: 14px;
-    }
-
-    .city-suggestion small {
-      display: block;
-      margin-top: 3px;
-      color: #607f91;
-      font-size: 12px;
-    }
-
-    #citySearchStatus {
-      margin: 6px 0;
-      font-size: 12px;
-      color: #607f91;
-    }
-
-    @media (max-width: 600px) {
-      #homeButton {
-        font-size: 11px;
-        padding: 5px 7px;
-      }
-
-      #worldMap {
-        height: 310px;
-      }
-
-      #citySuggestions {
-        max-height: 220px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- LANGUAGE SELECTOR + HOME BUTTON -->
-
-  <div id="languagePanel">
-    <label>
-      <span id="languageLabel">Lingua</span>
-
-      <select
-        id="languageSelect"
-        onchange="setLanguage(this.value)"
-        aria-label="Language"
-      >
-        <option value="it">🇮🇹 Italiano</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="de">🇩🇪 Deutsch</option>
-      </select>
-    </label>
-
-    <button
-      id="homeButton"
-      type="button"
-      onclick="returnToMenu()"
-    >
-      🏠 Menu
-    </button>
-  </div>
-
-  <!-- HEADER -->
-
-  <header>
-    <h1>
-      DISHUP<span style="color:#129bd2">!</span>
-    </h1>
-
-    <b>PLAY · DISCOVER · ORDER</b>
-  </header>
-
-  <aside
-    id="scoreBanner"
-    class="hidden"
-    aria-live="polite"
-  ></aside>
-
-  <!-- MAIN MENU -->
-
-  <section class="panel" id="setup">
-    <h2 id="setupTitle">Scegli come giocare</h2>
-
-    <div class="grid">
-      <button
-        id="soloButton"
-        onclick="setMode('solo')"
-      >
-        🎯 Single player
-      </button>
-
-      <button
-        id="partyButton"
-        onclick="setMode('party')"
-      >
-        🎉 Party (stesso schermo)
-      </button>
-
-      <button
-        id="onlineButton"
-        onclick="setMode('online')"
-      >
-        🌐 Online multiplayer
-      </button>
-    </div>
-
-    <div id="partySetup" class="hidden">
-      <p id="playersLabel">
-        Giocatori (separati da virgole)
-      </p>
-
-      <input
-        id="names"
-        value="Alex, Sam"
-        style="width:90%"
-      >
-
-      <button
-        id="startButton"
-        onclick="start()"
-      >
-        Inizia
-      </button>
-    </div>
-
-    <p id="notice" class="muted"></p>
-  </section>
-
-  <!-- GAME -->
-
-  <section id="game" class="panel hidden">
-
-    <div id="status"></div>
-
-    <p id="timer">⏱ 60 s</p>
-
-    <div id="food"></div>
-
-    <img
-      id="dishPhoto"
-      alt="Food photograph"
-      referrerpolicy="no-referrer"
-    >
-
-    <p id="photoCredit" class="hidden"></p>
-
-    <h2 id="dish"></h2>
-
-    <p id="instructions" class="muted"></p>
-
-    <!-- COUNTRY MAP -->
-
-    <div id="mapAnswer">
-
-      <strong id="mapLabel"></strong>
-
-      <p
-        id="selectedCountry"
-        aria-live="polite"
-      ></p>
-
-      <div
-        id="worldMap"
-        role="application"
-        aria-label="Interactive world map"
-      ></div>
-
-      <p id="mapHelp" class="muted"></p>
-
-    </div>
-
-    <!-- COUNTRY FALLBACK -->
-
-    <label id="originFallback" class="hidden">
-      <span id="fallbackLabel">Origine</span>
-      <select id="origin"></select>
-    </label>
-
-    <!-- NUTRITION SLIDERS -->
-
-    <div id="sliders"></div>
-
-    <button
-      id="submit"
-      onclick="submitGuess()"
-    ></button>
-
-    <!-- PARTY MODE HANDOFF -->
-
-    <div id="handoff" class="handoff hidden">
-
-      <h3 id="handoffTitle"></h3>
-
-      <p id="handoffText"></p>
-
-      <button
-        id="handoffButton"
-        onclick="beginNextPlayer()"
-      ></button>
-
-    </div>
-
-    <div id="results"></div>
-
-    <button
-      id="next"
-      class="hidden"
-      onclick="advance()"
-    ></button>
-
-  </section>
-
-  <!-- FINAL SCREEN -->
-
-  <section class="panel hidden" id="finish">
-
-    <h2 id="finishTitle"></h2>
-
-    <div id="leaderboard"></div>
-
-    <!-- RESTAURANT DISCOVERY -->
-
-    <div id="discover" class="discover">
-
-      <h2 id="discoverTitle"></h2>
-
-      <p id="discoverIntro"></p>
-
-      <label for="cityInput">
-        <span id="cityLabel"></span>
-      </label>
-
-      <!-- CITY AUTOCOMPLETE -->
-
-      <div class="city-search" id="citySearch">
-
-        <input
-          id="cityInput"
-          type="text"
-          placeholder="Barcelona"
-          autocomplete="off"
-          autocapitalize="words"
-          spellcheck="false"
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded="false"
-          aria-controls="citySuggestions"
-          aria-describedby="citySearchStatus"
-        >
-
-        <div
-          id="citySuggestions"
-          class="hidden"
-          role="listbox"
-          aria-label="City suggestions"
-        ></div>
-
-      </div>
-
-      <p
-        id="citySearchStatus"
-        aria-live="polite"
-      ></p>
-
-      <div
-        id="dishLinks"
-        class="dish-links"
-      ></div>
-
-      <p id="discoverNote" class="muted"></p>
-
-    </div>
-
-    <button
-      id="newGameButton"
-      onclick="returnToMenu()"
-    ></button>
-
-  </section>
-
-  <!-- LEAFLET -->
-
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  ></script>
-
-  <!-- EXISTING GAME ENGINE -->
-
-  <script src="./script.js?v=6"></script>
-
-  <!-- CITY AUTOCOMPLETE ENGINE -->
-
-  <script>
-    (function () {
-      "use strict";
-
-      const input = document.getElementById("cityInput");
-      const suggestions = document.getElementById("citySuggestions");
-      const status = document.getElementById("citySearchStatus");
-
-      if (!input || !suggestions || !status) return;
-
-      let searchTimer = null;
-      let controller = null;
-      let searchVersion = 0;
-      let results = [];
-      let activeIndex = -1;
-      let selectedCity = null;
-
-      const cache = new Map();
-
-      const messages = {
-        it: {
-          searching: "Ricerca città...",
-          noResults: "Nessuna città trovata. Prova un altro nome.",
-          error: "Ricerca non disponibile. Puoi comunque scrivere la città.",
-          choose: "Seleziona una città dai suggerimenti.",
-          selected: "Città selezionata"
-        },
-
-        en: {
-          searching: "Searching for cities...",
-          noResults: "No cities found. Try another name.",
-          error: "Search unavailable. You can still type the city.",
-          choose: "Choose a city from the suggestions.",
-          selected: "Selected city"
-        },
-
-        fr: {
-          searching: "Recherche de villes...",
-          noResults: "Aucune ville trouvée. Essayez un autre nom.",
-          error: "Recherche indisponible. Vous pouvez saisir la ville.",
-          choose: "Choisissez une ville dans les suggestions.",
-          selected: "Ville sélectionnée"
-        },
-
-        es: {
-          searching: "Buscando ciudades...",
-          noResults: "No se encontraron ciudades. Prueba otro nombre.",
-          error: "Búsqueda no disponible. Puedes escribir la ciudad.",
-          choose: "Selecciona una ciudad de las sugerencias.",
-          selected: "Ciudad seleccionada"
-        },
-
-        de: {
-          searching: "Städte werden gesucht...",
-          noResults: "Keine Städte gefunden. Versuche einen anderen Namen.",
-          error: "Suche nicht verfügbar. Du kannst die Stadt eingeben.",
-          choose: "Wähle eine Stadt aus den Vorschlägen.",
-          selected: "Ausgewählte Stadt"
-        }
-      };
-
-      function currentLanguage() {
-        const selector = document.getElementById("languageSelect");
-        const value = selector ? selector.value : "en";
-        return messages[value] ? value : "en";
-      }
-
-      function msg(key) {
-        return messages[currentLanguage()][key];
-      }
-
-      function hideSuggestions() {
-        suggestions.classList.add("hidden");
-        suggestions.innerHTML = "";
-        input.setAttribute("aria-expanded", "false");
-        input.removeAttribute("aria-activedescendant");
-        activeIndex = -1;
-      }
-
-      function cancelSearch() {
-        clearTimeout(searchTimer);
-
-        if (controller) {
-          controller.abort();
-          controller = null;
-        }
-
-        searchVersion++;
-      }
-
-      function formatCity(city) {
-        return [
-          city.name,
-          city.admin1 && city.admin1 !== city.name
-            ? city.admin1
-            : null,
-          city.country
-        ].filter(Boolean).join(", ");
-      }
-
-      function chooseCity(city) {
-        cancelSearch();
-
-        selectedCity = city;
-
-        // Keep the city and country in the Google Maps query.
-        input.value = [city.name, city.country]
-          .filter(Boolean)
-          .join(", ");
-
-        hideSuggestions();
-
-        status.textContent =
-          `${msg("selected")}: ${formatCity(city)}`;
-
-        // Trigger the existing restaurant-link update.
-        input.dispatchEvent(new Event("input", {
-          bubbles: true
-        }));
-      }
-
-      function updateActive() {
-        const buttons = suggestions.querySelectorAll(
-          ".city-suggestion"
-        );
-
-        buttons.forEach((button, index) => {
-          const active = index === activeIndex;
-
-          button.classList.toggle("active", active);
-          button.setAttribute(
-            "aria-selected",
-            String(active)
-          );
-
-          if (active) {
-            input.setAttribute(
-              "aria-activedescendant",
-              button.id
-            );
-
-            button.scrollIntoView({
-              block: "nearest"
-            });
-          }
-        });
-
-        if (activeIndex < 0) {
-          input.removeAttribute("aria-activedescendant");
-        }
-      }
-
-      function displaySuggestions(cities) {
-        results = cities;
-        suggestions.innerHTML = "";
-        activeIndex = -1;
-
-        if (!cities.length) {
-          hideSuggestions();
-          status.textContent = msg("noResults");
-          return;
-        }
-
-        cities.forEach((city, index) => {
-          const button = document.createElement("button");
-
-          button.type = "button";
-          button.className = "city-suggestion";
-          button.id = `city-option-${index}`;
-          button.setAttribute("role", "option");
-          button.setAttribute("aria-selected", "false");
-
-          const name = document.createElement("strong");
-          name.textContent = city.name;
-
-          const detail = document.createElement("small");
-          detail.textContent = [
-            city.admin1 && city.admin1 !== city.name
-              ? city.admin1
-              : null,
-            city.country
-          ].filter(Boolean).join(", ");
-
-          button.appendChild(name);
-          button.appendChild(detail);
-
-          // Prevent the input from losing focus before selection.
-          button.addEventListener("pointerdown", event => {
-            event.preventDefault();
-          });
-
-          button.addEventListener("click", () => {
-            chooseCity(city);
-          });
-
-          suggestions.appendChild(button);
-        });
-
-        suggestions.classList.remove("hidden");
-        input.setAttribute("aria-expanded", "true");
-
-        status.textContent = msg("choose");
-      }
-
-      async function searchCities(query, version) {
-        const lang = currentLanguage();
-
-        const cacheKey =
-          `${lang}:${query.toLocaleLowerCase()}`;
-
-        if (cache.has(cacheKey)) {
-          if (version === searchVersion) {
-            displaySuggestions(cache.get(cacheKey));
-          }
-          return;
-        }
-
-        controller = new AbortController();
-
-        status.textContent = msg("searching");
-
-        try {
-          const url = new URL(
-            "https://geocoding-api.open-meteo.com/v1/search"
-          );
-
-          url.searchParams.set("name", query);
-          url.searchParams.set("count", "8");
-          url.searchParams.set("language", lang);
-          url.searchParams.set("format", "json");
-
-          const response = await fetch(url.toString(), {
-            signal: controller.signal
-          });
-
-          if (!response.ok) {
-            throw new Error("Geocoding request failed");
-          }
-
-          const data = await response.json();
-
-          if (version !== searchVersion) return;
-
-          const cities = (data.results || [])
-            .filter(item =>
-              item.name &&
-              item.country &&
-              Number.isFinite(item.latitude) &&
-              Number.isFinite(item.longitude)
-            );
-
-          cache.set(cacheKey, cities);
-
-          displaySuggestions(cities);
-
-        } catch (error) {
-          if (error.name === "AbortError") return;
-          if (version !== searchVersion) return;
-
-          hideSuggestions();
-          status.textContent = msg("error");
-        }
-      }
-
-      input.addEventListener("input", () => {
-        cancelSearch();
-
-        const query = input.value.trim();
-
-        // If this input event came from choosing a suggestion,
-        // do not start another search.
-        if (
-          selectedCity &&
-          query === [selectedCity.name, selectedCity.country]
-            .filter(Boolean)
-            .join(", ")
-        ) {
-          hideSuggestions();
-          return;
-        }
-
-        selectedCity = null;
-        hideSuggestions();
-        results = [];
-
-        if (query.length < 2) {
-          status.textContent = "";
-          return;
-        }
-
-        const version = searchVersion;
-
-        // Debounce: wait until the user pauses typing.
-        searchTimer = setTimeout(() => {
-          searchCities(query, version);
-        }, 450);
-      });
-
-      input.addEventListener("keydown", event => {
-        const isOpen =
-          !suggestions.classList.contains("hidden");
-
-        if (!isOpen || !results.length) return;
-
-        if (event.key === "ArrowDown") {
-          event.preventDefault();
-
-          activeIndex =
-            (activeIndex + 1) % results.length;
-
-          updateActive();
-        }
-
-        if (event.key === "ArrowUp") {
-          event.preventDefault();
-
-          activeIndex =
-            (activeIndex - 1 + results.length) %
-            results.length;
-
-          updateActive();
-        }
-
-        if (event.key === "Enter") {
-          event.preventDefault();
-
-          chooseCity(
-            results[activeIndex >= 0 ? activeIndex : 0]
-          );
-        }
-
-        if (event.key === "Escape") {
-          hideSuggestions();
-        }
-      });
-
-      document.addEventListener("click", event => {
-        const searchBox =
-          document.getElementById("citySearch");
-
-        if (!searchBox.contains(event.target)) {
-          hideSuggestions();
-        }
-      });
-
-      input.addEventListener("focus", () => {
-        if (
-          results.length &&
-          !selectedCity &&
-          input.value.trim().length >= 2
-        ) {
-          displaySuggestions(results);
-        }
-      });
-
-    })();
-  </script>
-
-</body>
-</html>
+<!doctype html><html lang="it"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FOOD? — Prototype v8</title><style>body{font-family:system-ui;background:#eaf8ff;color:#12364b;max-width:850px;margin:auto;padding:25px}button,input,select{font:inherit;padding:10px;border-radius:9px;border:1px solid #8cc8e4}button{cursor:pointer;background:#82d7f5}header{display:flex;justify-content:space-between;align-items:center}.panel{background:white;border:2px solid #277fa8;border-radius:18px;padding:22px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.muted{color:#527c92}.hidden{display:none}label{display:block;margin:14px 0}input[type=range]{width:80%;vertical-align:middle}#results p{padding:8px;border-bottom:1px solid #ddd}h1{font-size:2.5rem;margin:0}#food{font-size:3rem}button:disabled{opacity:.4}.handoff{background:#dcf5ff;border:1px solid #78c5e5;border-radius:12px;padding:18px;margin:16px 0}.summary{border:1px solid #a8d8ed;border-radius:12px;padding:12px;margin:12px 0}.summary h3{margin:0 0 8px}.summary p{margin:5px 0}.result-title{font-weight:800}#results{margin-top:16px}#scoreBanner{position:fixed;top:12px;right:12px;z-index:20;background:#07577c;color:white;border-radius:13px;padding:10px 13px;box-shadow:0 4px 18px #0003;max-width:240px;font-size:13px}#scoreBanner .active{color:#a6edff;font-weight:800}#timer{font-size:1.3rem;font-weight:800;color:#087fab}body{padding-top:75px}@media(max-width:600px){#scoreBanner{top:5px;right:5px;max-width:180px;font-size:11px;padding:7px}}#food{min-height:0}#dishPhoto{display:none;width:100%;max-width:570px;height:290px;object-fit:cover;border-radius:15px;border:2px solid #277fa8;background:#dff4fc;margin:12px 0}#photoCredit{font-size:11px;color:#527c92;margin:0 0 12px}@media(max-width:600px){#dishPhoto{height:220px}}button:hover:not(:disabled){background:#50bfe9}input[type=range]{accent-color:#1399cd}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #087fab;outline-offset:2px}.final-ranking{display:grid;gap:8px;margin-bottom:24px}.rank-row{display:flex;justify-content:space-between;background:#dcf5ff;padding:12px;border-radius:10px}.history-round{border:1px solid #a8d8ed;border-radius:12px;margin:12px 0;background:#f5fcff;padding:12px}.history-round summary{cursor:pointer;font-weight:750;display:flex;justify-content:space-between;gap:8px}.history-player{background:#fff;border-radius:10px;padding:12px;margin:12px 0}.history-player h4{margin:0 0 10px}.history-scroll{overflow-x:auto}.history-player table{border-collapse:collapse;width:100%;font-size:13px;text-align:left}.history-player th,.history-player td{padding:8px;border-bottom:1px solid #d7ebf5}.history-player th{color:#07577c;background:#eaf8ff}#finish{padding-bottom:30px}#languagePanel{position:fixed;top:12px;left:12px;z-index:25;background:white;border:1px solid #8cc8e4;border-radius:12px;padding:7px 10px;box-shadow:0 3px 12px #0001;font-size:13px}#languagePanel select{padding:5px;background:#eaf8ff}body{padding-top:85px}@media(max-width:600px){#languagePanel{top:5px;left:5px;padding:5px;font-size:11px}#languagePanel select{padding:4px}} </style><div id="languagePanel"><label style="margin:0"><span id="languageLabel">Lingua</span> <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option></select></label></div><header><h1>FOOD<span style="color:#129bd2">?</span></h1><b>Guess it · Risk it</b></header><aside id="scoreBanner" class="hidden" aria-live="polite"></aside><section class="panel" id="setup"><h2>Scegli come giocare</h2><div class="grid"><button onclick="setMode('solo')">🎯 Single player</button><button onclick="setMode('party')">🎉 Party (stesso schermo)</button><button onclick="setMode('online')">🌐 Online multiplayer</button></div><div id="partySetup" class="hidden"><p>Giocatori (separati da virgole)</p><input id="names" value="Alex, Sam" style="width:90%"><button onclick="start()">Inizia</button></div><p id="notice" class="muted"></p></section><section id="game" class="panel hidden"><div id="status"></div><p id="timer" aria-live="off">⏱ 60 s</p><div id="food"></div><img id="dishPhoto" alt="Fotografia del piatto" referrerpolicy="no-referrer"><p id="photoCredit" class="hidden">Foto: Wikimedia Commons / Wikipedia</p><h2 id="dish"></h2><p class="muted">Indovina il paese d’origine, il secolo e i valori nutrizionali per 100 g. I secoli sono riferimenti storici convenzionali e talvolta controversi.</p><label>Origine <select id="origin"><option>Italia</option><option>Giappone</option><option>Messico</option><option>India</option><option>Francia</option><option>Perù</option><option>Libano</option><option>Stati Uniti</option><option>Regno Unito</option></select></label><div id="sliders"></div><button id="submit" onclick="submitGuess()">Conferma risposte</button><div id="handoff" class="handoff hidden"><h3 id="handoffTitle"></h3><p id="handoffText"></p><button id="handoffButton" onclick="beginNextPlayer()">Inizia il turno</button></div><div id="results"></div><button id="next" class="hidden" onclick="advance()">Continua →</button></section><section class="panel hidden" id="finish"><h2>Partita finita!</h2><div id="leaderboard"></div><button onclick="location.reload()">Nuova partita</button></section><script>const translations={
+ 'Scegli come giocare':'Choose how to play','Party (stesso schermo)':'Party (shared screen)','Giocatori (separati da virgole)':'Players (comma-separated)','Inizia':'Start','Partita finita!':'Game over!','Nuova partita':'New game','Fotografia del piatto':'Photo of the dish','Foto: Wikimedia Commons / Wikipedia':'Photo: Wikimedia Commons / Wikipedia','Indovina il paese d’origine, il secolo e i valori nutrizionali per 100 g. I secoli sono riferimenti storici convenzionali e talvolta controversi.':'Guess the country of origin, century and nutritional values per 100 g. Centuries are conventional historical references and sometimes disputed.','Origine':'Origin','Conferma risposte':'Submit answers','Continua →':'Continue →','Calorie (kcal)':'Calories (kcal)','Proteine (g)':'Protein (g)','Grassi (g)':'Fat (g)','Carboidrati (g)':'Carbohydrates (g)','Secolo di origine:':'Century of origin:','secolo':'century','Round':'Round','Turno di':'Turn for','Risultati':'Results','Risultati del round':'Round results','Paese':'Country','Secolo':'Century','corretto:':'correct:','punti':'points','Tempo scaduto':'Time is up','tempo scaduto':'time expired','risposte salvate':'answers saved','Risposte salvate!':'Answers saved!','Passa il dispositivo a':'Pass the device to','Nessuna risposta è stata rivelata. Il prossimo giocatore vedrà lo stesso piatto e avrà 60 secondi.':'No answers have been revealed. The next player will see the same dish and have 60 seconds.','Inizia il turno':'Start turn','Tutti hanno risposto!':'Everyone has answered!','Ora possiamo rivelare le risposte e aggiornare la classifica.':'Now we can reveal the answers and update the leaderboard.','Rivela le risposte':'Reveal answers','Nota storica:':'Historical note:','Valori nutrizionali dimostrativi; fonti e ricette standard da verificare prima della pubblicazione.':'Illustrative nutritional values; sources and standard recipes must be verified before publication.','Classifica finale →':'Final leaderboard →','Prossimo piatto →':'Next dish →','Classifica generale':'Overall leaderboard','Rivedi le risposte':'Review answers','Apri un piatto per confrontare le risposte di tutti i giocatori. I risultati sono visibili solo a partita conclusa.':'Open a dish to compare all players’ answers. Results are only available after the game ends.','Mostra risposte':'Show answers','Risposte corrette:':'Correct answers:','proteine':'protein','grassi':'fat','carboidrati':'carbohydrates','per 100 g':'per 100 g','Risposta':'Answer','Corretta':'Correct','Punti':'Points','Italia':'Italy','Giappone':'Japan','Messico':'Mexico','India':'India','Francia':'France','Perù':'Peru','Libano':'Lebanon','Stati Uniti':'United States','Regno Unito':'United Kingdom','Il multiplayer online richiede un server per sincronizzare le stanze. Questa demo include Single Player e Party Mode.':'Online multiplayer requires a server to synchronize rooms. This demo includes Single Player and Party Mode.','Giocatore 1':'Player 1','Tu':'You','è la data tradizionalmente associata alla dedica alla regina Margherita; l’origine della ricetta è dibattuta.':'is traditionally associated with the dedication to Queen Margherita; the recipe’s origin is debated.','Attribuita a Caesar Cardini a Tijuana nel 1924.':'Attributed to Caesar Cardini in Tijuana in 1924.','Generalmente attribuiti a Ignacio Anaya nel 1943.':'Generally attributed to Ignacio Anaya in 1943.','Data indicativa: la storia del tiramisù moderno e la sua attribuzione sono controverse.':'Approximate date: the history and attribution of modern tiramisu are disputed.','Data indicativa del consolidamento della versione moderna; deriva da tradizioni precedenti.':'Approximate date for the modern version; it evolved from earlier traditions.','Origine e data dibattute; 1970 è una stima convenzionale, non un anno accertato.':'Origin and date are disputed; 1970 is a conventional estimate, not a confirmed year.','Anno indicativo associato alle ricostruzioni del dopoguerra; esistono versioni contrastanti.':'Approximate postwar date; competing accounts exist.','Una delle attribuzioni più note risale al 1904 in Pennsylvania.':'One widely cited attribution dates to 1904 in Pennsylvania.'
+};
+let language='it';
+function t(v){if(language==='it')return String(v);let a=String(v);if(translations[a])return translations[a];return a.replace(/Italia|Giappone|Messico|Francia|Perù|Libano|Stati Uniti|Regno Unito|Calorie \(kcal\)|Proteine \(g\)|Grassi \(g\)|Carboidrati \(g\)|proteine|grassi|carboidrati|corretto:|secolo|punti|Tempo scaduto|tempo scaduto|Round|Turno di|Risultati|Paese|Secolo|Origine|Risposta|Corretta|Punti|Mostra risposte|Inizia|Conferma risposte|Nuova partita|Continua →|Risposte salvate!/g,m=>translations[m]||m)}
+let translating=false;
+function translateVisible(){if(translating)return;translating=true;document.documentElement.lang=language;if(document.getElementById('languageLabel').textContent!==(language==='it'?'Lingua':'Language'))document.getElementById('languageLabel').textContent=language==='it'?'Lingua':'Language';document.getElementById('languageSelect').value=language;const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){if(node.parentElement?.closest('script,style,#languagePanel'))continue;const raw=node.textContent;if(node.__lastRendered!==undefined&&raw!==node.__lastRendered)node.__itText=raw;if(node.__itText===undefined)node.__itText=raw;const original=node.__itText;const clean=original.trim();const translated=language==='en'?t(clean):clean;const out=clean?original.replace(clean,translated):original;if(raw!==out)node.textContent=out;node.__lastRendered=out;}const img=document.getElementById('dishPhoto');img.alt=language==='en'?'Photo of the dish':'Fotografia del piatto';translating=false;}
+function setLanguage(l){language=l==='en'?'en':'it';try{localStorage.setItem('foodgame-language',language)}catch(e){}refreshLanguage();}
+function refreshLanguage(){if(!document.getElementById('finish').classList.contains('hidden'))document.getElementById('leaderboard').innerHTML=renderFinalHistory();translateVisible();}
+let lastResultsHtml='';
+const foods=[
+{name:'Pizza Margherita',emoji:'🍕',origin:'Italia',year:1889,yearNote:'1889 è la data tradizionalmente associata alla dedica alla regina Margherita; l’origine della ricetta è dibattuta.',cal:250,protein:11,fat:9,carbs:31},
+{name:'Caesar salad',emoji:'🥗',origin:'Messico',year:1924,yearNote:'Attribuita a Caesar Cardini a Tijuana nel 1924.',cal:190,protein:7,fat:16,carbs:5},
+{name:'Nachos',emoji:'🧀',origin:'Messico',year:1943,yearNote:'Generalmente attribuiti a Ignacio Anaya nel 1943.',cal:310,protein:9,fat:18,carbs:29},
+{name:'Tiramisù',emoji:'🍰',origin:'Italia',year:1970,yearNote:'Data indicativa: la storia del tiramisù moderno e la sua attribuzione sono controverse.',cal:290,protein:6,fat:19,carbs:25},
+{name:'Tacos al pastor',emoji:'🌮',origin:'Messico',year:1960,yearNote:'Data indicativa del consolidamento della versione moderna; deriva da tradizioni precedenti.',cal:220,protein:12,fat:10,carbs:20},
+{name:'Chicken tikka masala',emoji:'🍛',origin:'Regno Unito',year:1970,yearNote:'Origine e data dibattute; 1970 è una stima convenzionale, non un anno accertato.',cal:160,protein:13,fat:9,carbs:7},
+{name:'Pasta alla carbonara',emoji:'🍝',origin:'Italia',year:1944,yearNote:'Anno indicativo associato alle ricostruzioni del dopoguerra; esistono versioni contrastanti.',cal:280,protein:12,fat:13,carbs:28},
+{name:'Banana split',emoji:'🍌',origin:'Stati Uniti',year:1904,yearNote:'Una delle attribuzioni più note risale al 1904 in Pennsylvania.',cal:210,protein:3,fat:9,carbs:31}
+];const specs=[['cal','Calorie (kcal)',900],['protein','Proteine (g)',100],['fat','Grassi (g)',100],['carbs','Carboidrati (g)',100]];let history=[];let mode='solo',players=['Tu'],scores={},round=0,turn=0,order=[],timerId=null,remaining=60,submitted=false,guesses=[];
+function century(y){return Math.ceil(y/100)}
+function roman(n){const nums=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let a='';for(const [v,c] of nums)while(n>=v){a+=c;n-=v}return a}
+function updateBanner(){const b=document.getElementById('scoreBanner');b.classList.remove('hidden');b.innerHTML=players.map((p,i)=>`<div class="${i===turn?'active':''}">${p.replace(/</g,'&lt;')}: ${scores[p]} pt${i===turn?' ●':''}</div>`).join('')}
+function stopTimer(){if(timerId!==null){clearInterval(timerId);timerId=null}}
+function startTimer(){stopTimer();remaining=60;document.getElementById('timer').textContent='⏱ 60 s';timerId=setInterval(()=>{remaining--;document.getElementById('timer').textContent=`⏱ ${remaining} s`;if(remaining<=0){stopTimer();submitGuess(true)}},1000)}function setMode(m){mode=m;if(m==='online'){document.getElementById('notice').textContent='Il multiplayer online richiede un server per sincronizzare le stanze. Questa demo include Single Player e Party Mode.';return}if(m==='party'){document.getElementById('partySetup').classList.remove('hidden');return}start()}function start(){if(mode==='party')players=document.getElementById('names').value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,8);if(!players.length)players=['Giocatore 1'];players.forEach(p=>scores[p]=0);order=[...foods].sort(()=>Math.random()-.5).slice(0,5);guesses=[];history=[];document.getElementById('setup').classList.add('hidden');document.getElementById('game').classList.remove('hidden');render()}function show(el,visible){document.getElementById(el).classList.toggle('hidden',!visible)}
+const wikiTitles={
+ 'Pizza Margherita':'Pizza Margherita',
+ 'Caesar salad':'Caesar salad',
+ 'Nachos':'Nachos',
+ 'Tiramisù':'Tiramisu',
+ 'Tacos al pastor':'Tacos al pastor',
+ 'Chicken tikka masala':'Chicken tikka masala',
+ 'Pasta alla carbonara':'Carbonara',
+ 'Banana split':'Banana split'
+};
+const photoCache={};
+async function showDishPhoto(f){
+ const img=document.getElementById('dishPhoto');
+ const emoji=document.getElementById('food');
+ const credit=document.getElementById('photoCredit');
+ img.style.display='none';img.removeAttribute('src');emoji.style.display='block';credit.classList.add('hidden');
+ const title=wikiTitles[f.name]||f.name;
+ try{
+   let url=photoCache[title];
+   if(!url){
+     const endpoint='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=900&redirects=1&titles='+encodeURIComponent(title);
+     const res=await fetch(endpoint);if(!res.ok)throw new Error('Foto non disponibile');
+     const data=await res.json();
+     const page=Object.values(data.query?.pages||{})[0];
+     url=page?.thumbnail?.source;
+     if(!url)throw new Error('Nessuna fotografia');
+     photoCache[title]=url;
+   }
+   if(order[round]?.name!==f.name)return;
+   img.onload=()=>{if(order[round]?.name!==f.name)return;img.style.display='block';emoji.style.display='none';credit.classList.remove('hidden')};
+   img.onerror=()=>{img.style.display='none';emoji.style.display='block';credit.classList.add('hidden')};
+   img.alt='Fotografia di '+f.name;img.src=url;
+ }catch(e){/* Nessuna connessione: resta visibile l’emoji. */}
+}
+function render(){
+ submitted=false;
+ const f=order[round];
+ updateBanner();
+ document.getElementById('status').textContent=`Round ${round+1}/${order.length} · Turno di ${players[turn]}`;
+ document.getElementById('food').textContent=f.emoji;
+ showDishPhoto(f);
+ document.getElementById('dish').textContent=f.name;
+ document.getElementById('origin').value='Italia';
+ document.getElementById('sliders').innerHTML='<label>Secolo di origine: <select id="century">'+Array.from({length:22},(_,i)=>`<option value="${i+1}" ${i===19?'selected':''}>${roman(i+1)} secolo</option>`).join('')+'</select></label>'+specs.map(([k,n,max])=>{let initial=Math.floor(max/2);return `<label>${n}: <output id="out_${k}">${initial}</output><br><input type="range" id="${k}" min="0" max="${max}" step="1" value="${initial}" oninput="document.getElementById('out_${k}').textContent=this.value"></label>`}).join('');
+ document.getElementById('results').innerHTML='';
+ show('handoff',false);show('submit',true);show('next',false);
+ document.getElementById('origin').closest('label').classList.remove('hidden');
+ show('sliders',true);show('food',true);show('dish',true);show('timer',true);
+ startTimer();
+}
+function submitGuess(timedOut=false){
+ if(submitted)return;
+ submitted=true;stopTimer();
+ const answer={origin:document.getElementById('origin').value,century:+document.getElementById('century').value};
+ for(const [k] of specs)answer[k]=+document.getElementById(k).value;
+ guesses.push({playerIndex:turn,answer,timedOut});
+ // No scoring or correct answers are shown until every player has answered.
+ show('submit',false);show('timer',false);show('food',false);show('dish',false);show('sliders',false);
+ document.getElementById('origin').closest('label').classList.add('hidden');
+ show('handoff',true);
+ if(guesses.length<players.length){
+  const nextPlayer=players[turn+1];
+  document.getElementById('handoffTitle').textContent=timedOut?'Tempo scaduto — risposte salvate':'Risposte salvate!';
+  document.getElementById('handoffText').textContent=`Passa il dispositivo a ${nextPlayer}. Nessuna risposta è stata rivelata. Il prossimo giocatore vedrà lo stesso piatto e avrà 60 secondi.`;
+  document.getElementById('handoffButton').textContent=`Inizia: ${nextPlayer}`;
+  show('handoffButton',true);
+ }else{
+  document.getElementById('handoffTitle').textContent='Tutti hanno risposto!';
+  document.getElementById('handoffText').textContent='Ora possiamo rivelare le risposte e aggiornare la classifica.';
+  document.getElementById('handoffButton').textContent='Rivela le risposte';
+ }
+}
+function beginNextPlayer(){
+ if(guesses.length===players.length){revealRound();return}
+ turn++;render();
+}
+function scoreAnswer(a,f){
+ let pts=a.origin===f.origin?7:0;
+ const realCentury=century(f.year),distance=Math.abs(a.century-realCentury);
+ const centuryPts=distance===0?10:distance===1?7:0;
+ pts+=centuryPts;
+ const details=[`Paese: ${a.origin} (corretto: ${f.origin}) — ${a.origin===f.origin?7:0} pt`,`Secolo: ${roman(a.century)} (corretto: ${roman(realCentury)}) — ${centuryPts} pt`];
+ for(const [k,n] of specs){const d=Math.abs(a[k]-f[k]),t=k==='cal'?50:5,p=d<=t?7:d<=2*t?3:0;pts+=p;details.push(`${n}: ${a[k]} (corretto: ${f[k]}) — ${p} pt`)}
+ return {pts,details};
+}
+function revealRound(){
+ stopTimer();show('handoff',false);show('results',true);show('next',true);
+ document.getElementById('status').textContent=`Round ${round+1}/${order.length} · Risultati`;
+ const f=order[round];
+ document.getElementById('food').textContent=f.emoji;
+ showDishPhoto(f);document.getElementById('dish').textContent=f.name;
+ show('food',true);show('dish',true);
+ let html='<h2>Risultati del round</h2>';
+ for(const g of guesses){
+  const result=scoreAnswer(g.answer,f),name=players[g.playerIndex];
+  scores[name]+=result.pts;
+  const safe=name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  html+=`<div class="summary"><h3>${safe} — +${result.pts} punti${g.timedOut?' (tempo scaduto)':''}</h3>${result.details.map(d=>`<p>${d}</p>`).join('')}</div>`;
+ }
+ history.push({food:f,entries:guesses.map(g=>({player:players[g.playerIndex],answer:{...g.answer},timedOut:g.timedOut,result:scoreAnswer(g.answer,f)}))});
+ html+=`<p class="muted"><b>Nota storica:</b> ${f.yearNote}</p><small>Valori nutrizionali dimostrativi; fonti e ricette standard da verificare prima della pubblicazione.</small>`;
+ document.getElementById('results').innerHTML=html;
+ updateBanner();
+ document.getElementById('next').textContent=round===order.length-1?'Classifica finale →':'Prossimo piatto →';
+}
+
+function escapeHtml(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function renderFinalHistory(){
+ const ranking=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+ let html='<h3>Classifica generale</h3><div class="final-ranking">'+ranking.map(([name,score],i)=>`<div class="rank-row"><strong>${i+1}° ${escapeHtml(name)}</strong><strong>${score} pt</strong></div>`).join('')+'</div>';
+ html+='<h3>Rivedi le risposte</h3><p class="muted">Apri un piatto per confrontare le risposte di tutti i giocatori. I risultati sono visibili solo a partita conclusa.</p>';
+ for(let i=0;i<history.length;i++){
+  const h=history[i],f=h.food;
+  html+=`<details class="history-round"><summary>Round ${i+1} · ${escapeHtml(f.name)} <span class="muted">Mostra risposte</span></summary>`;
+  html+=`<p class="muted">Risposte corrette: ${escapeHtml(f.origin)} · ${roman(century(f.year))} secolo · ${f.cal} kcal · ${f.protein} g proteine · ${f.fat} g grassi · ${f.carbs} g carboidrati (per 100 g)</p>`;
+  for(const entry of h.entries){
+   const a=entry.answer,r=entry.result;
+   const rows=[['Paese',a.origin,f.origin],['Secolo',roman(a.century),roman(century(f.year))],['Calorie',a.cal+' kcal',f.cal+' kcal'],['Proteine',a.protein+' g',f.protein+' g'],['Grassi',a.fat+' g',f.fat+' g'],['Carboidrati',a.carbs+' g',f.carbs+' g']];
+   const pointValues=[a.origin===f.origin?7:0,Math.abs(a.century-century(f.year))===0?10:Math.abs(a.century-century(f.year))===1?7:0,...specs.map(([k])=>{let d=Math.abs(a[k]-f[k]),t=k==='cal'?50:5;return d<=t?7:d<=t*2?3:0})];
+   html+=`<div class="history-player"><h4>${escapeHtml(entry.player)} · +${r.pts} punti${entry.timedOut?' · Tempo scaduto':''}</h4><div class="history-scroll"><table><thead><tr><th>Categoria</th><th>Risposta</th><th>Corretta</th><th>Punti</th></tr></thead><tbody>`;
+   rows.forEach((row,j)=>{html+=`<tr><td>${escapeHtml(row[0])}</td><td>${escapeHtml(row[1])}</td><td>${escapeHtml(row[2])}</td><td><strong>+${pointValues[j]}</strong></td></tr>`});
+   html+='</tbody></table></div></div>';
+  }
+  html+='</details>';
+ }
+ return html;
+}
+
+function advance(){
+ stopTimer();round++;turn=0;guesses=[];
+ if(round>=order.length){
+  show('game',false);show('finish',true);
+  document.getElementById('leaderboard').innerHTML=renderFinalHistory();
+  return;
+ }
+ render();
+}
+try{language=localStorage.getItem('foodgame-language')==='en'?'en':'it'}catch(e){}document.getElementById('languageSelect').value=language;const languageObserver=new MutationObserver(()=>translateVisible());languageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});translateVisible();</script></html>
