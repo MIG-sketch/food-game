@@ -361,7 +361,7 @@
   <!-- LIBRARIES + GAME ENGINE -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="./script.js?v=7"></script>
+  <script src="./script.js?v=8"></script>
 
   <!-- DISH DESCRIPTIONS -->
 
@@ -1389,6 +1389,9 @@
     }
     const select = document.getElementById("languageSelect");
     if (select) select.addEventListener("change", updateRules);
+    document.addEventListener("dishup:languagechange", updateRules);
+    document.addEventListener("DOMContentLoaded", updateRules);
+    window.addEventListener("pageshow", updateRules);
     updateRules();
   })();
   </script>
