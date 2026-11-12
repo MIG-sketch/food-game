@@ -501,7 +501,7 @@ const rawFoods = [
   ["Meat pie","🥧","Australia",1900,270,10,16,23]
 ];
 
-const foods = rawFoods.map(row => ({
+const originalFoods = rawFoods.map(row => ({
   name: row[0],
   emoji: row[1],
   origin: row[2],
@@ -512,7 +512,496 @@ const foods = rawFoods.map(row => ({
   carbs: row[7]
 }));
 
-console.assert(foods.length === 100, "Expected 100 dishes");
+// Country Challenge: 40 regional specialties, provisional nutrition and historical dates.
+const italianRegionalFoods = [
+  {
+    "name": "Fonduta valdostana",
+    "emoji": "🫕",
+    "origin": "Italia",
+    "region": "Valle d'Aosta",
+    "year": 1800,
+    "cal": 280,
+    "protein": 13,
+    "fat": 23,
+    "carbs": 5,
+    "provisional": true
+  },
+  {
+    "name": "Zuppa alla valpellinentze",
+    "emoji": "🍲",
+    "origin": "Italia",
+    "region": "Valle d'Aosta",
+    "year": 1800,
+    "cal": 180,
+    "protein": 7,
+    "fat": 9,
+    "carbs": 17,
+    "provisional": true
+  },
+  {
+    "name": "Vitello tonnato",
+    "emoji": "🥩",
+    "origin": "Italia",
+    "region": "Piemonte",
+    "year": 1800,
+    "cal": 220,
+    "protein": 18,
+    "fat": 15,
+    "carbs": 3,
+    "provisional": true
+  },
+  {
+    "name": "Bagna càuda",
+    "emoji": "🫕",
+    "origin": "Italia",
+    "region": "Piemonte",
+    "year": 1800,
+    "cal": 350,
+    "protein": 4,
+    "fat": 35,
+    "carbs": 5,
+    "provisional": true
+  },
+  {
+    "name": "Focaccia genovese",
+    "emoji": "🍞",
+    "origin": "Italia",
+    "region": "Liguria",
+    "year": 1800,
+    "cal": 300,
+    "protein": 7,
+    "fat": 11,
+    "carbs": 44,
+    "provisional": true
+  },
+  {
+    "name": "Farinata di ceci",
+    "emoji": "🥞",
+    "origin": "Italia",
+    "region": "Liguria",
+    "year": 1800,
+    "cal": 200,
+    "protein": 6,
+    "fat": 10,
+    "carbs": 19,
+    "provisional": true
+  },
+  {
+    "name": "Ossobuco alla milanese",
+    "emoji": "🍖",
+    "origin": "Italia",
+    "region": "Lombardia",
+    "year": 1800,
+    "cal": 190,
+    "protein": 21,
+    "fat": 11,
+    "carbs": 4,
+    "provisional": true
+  },
+  {
+    "name": "Pizzoccheri valtellinesi",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Lombardia",
+    "year": 1800,
+    "cal": 220,
+    "protein": 9,
+    "fat": 11,
+    "carbs": 22,
+    "provisional": true
+  },
+  {
+    "name": "Canederli",
+    "emoji": "🍲",
+    "origin": "Italia",
+    "region": "Trentino-Alto Adige",
+    "year": 1800,
+    "cal": 190,
+    "protein": 8,
+    "fat": 7,
+    "carbs": 23,
+    "provisional": true
+  },
+  {
+    "name": "Strangolapreti",
+    "emoji": "🥬",
+    "origin": "Italia",
+    "region": "Trentino-Alto Adige",
+    "year": 1800,
+    "cal": 180,
+    "protein": 7,
+    "fat": 6,
+    "carbs": 24,
+    "provisional": true
+  },
+  {
+    "name": "Baccalà alla vicentina",
+    "emoji": "🐟",
+    "origin": "Italia",
+    "region": "Veneto",
+    "year": 1800,
+    "cal": 210,
+    "protein": 19,
+    "fat": 13,
+    "carbs": 5,
+    "provisional": true
+  },
+  {
+    "name": "Risi e bisi",
+    "emoji": "🍚",
+    "origin": "Italia",
+    "region": "Veneto",
+    "year": 1800,
+    "cal": 130,
+    "protein": 4,
+    "fat": 4,
+    "carbs": 19,
+    "provisional": true
+  },
+  {
+    "name": "Frico",
+    "emoji": "🧀",
+    "origin": "Italia",
+    "region": "Friuli-Venezia Giulia",
+    "year": 1800,
+    "cal": 340,
+    "protein": 16,
+    "fat": 27,
+    "carbs": 8,
+    "provisional": true
+  },
+  {
+    "name": "Jota triestina",
+    "emoji": "🍲",
+    "origin": "Italia",
+    "region": "Friuli-Venezia Giulia",
+    "year": 1800,
+    "cal": 120,
+    "protein": 5,
+    "fat": 5,
+    "carbs": 13,
+    "provisional": true
+  },
+  {
+    "name": "Tortellini in brodo",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Emilia-Romagna",
+    "year": 1800,
+    "cal": 140,
+    "protein": 7,
+    "fat": 5,
+    "carbs": 16,
+    "provisional": true
+  },
+  {
+    "name": "Piadina romagnola",
+    "emoji": "🫓",
+    "origin": "Italia",
+    "region": "Emilia-Romagna",
+    "year": 1800,
+    "cal": 330,
+    "protein": 8,
+    "fat": 12,
+    "carbs": 45,
+    "provisional": true
+  },
+  {
+    "name": "Ribollita",
+    "emoji": "🍲",
+    "origin": "Italia",
+    "region": "Toscana",
+    "year": 1800,
+    "cal": 110,
+    "protein": 4,
+    "fat": 4,
+    "carbs": 14,
+    "provisional": true
+  },
+  {
+    "name": "Pappa al pomodoro",
+    "emoji": "🍅",
+    "origin": "Italia",
+    "region": "Toscana",
+    "year": 1800,
+    "cal": 120,
+    "protein": 3,
+    "fat": 5,
+    "carbs": 15,
+    "provisional": true
+  },
+  {
+    "name": "Strangozzi al tartufo",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Umbria",
+    "year": 1900,
+    "cal": 240,
+    "protein": 7,
+    "fat": 9,
+    "carbs": 32,
+    "provisional": true
+  },
+  {
+    "name": "Torta al testo",
+    "emoji": "🫓",
+    "origin": "Italia",
+    "region": "Umbria",
+    "year": 1800,
+    "cal": 290,
+    "protein": 8,
+    "fat": 8,
+    "carbs": 45,
+    "provisional": true
+  },
+  {
+    "name": "Olive all'ascolana",
+    "emoji": "🫒",
+    "origin": "Italia",
+    "region": "Marche",
+    "year": 1800,
+    "cal": 250,
+    "protein": 9,
+    "fat": 15,
+    "carbs": 20,
+    "provisional": true
+  },
+  {
+    "name": "Vincisgrassi",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Marche",
+    "year": 1800,
+    "cal": 220,
+    "protein": 11,
+    "fat": 12,
+    "carbs": 16,
+    "provisional": true
+  },
+  {
+    "name": "Supplì",
+    "emoji": "🍙",
+    "origin": "Italia",
+    "region": "Lazio",
+    "year": 1800,
+    "cal": 240,
+    "protein": 8,
+    "fat": 10,
+    "carbs": 29,
+    "provisional": true
+  },
+  {
+    "name": "Cacio e pepe",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Lazio",
+    "year": 1900,
+    "cal": 300,
+    "protein": 12,
+    "fat": 13,
+    "carbs": 34,
+    "provisional": true
+  },
+  {
+    "name": "Arrosticini",
+    "emoji": "🍢",
+    "origin": "Italia",
+    "region": "Abruzzo",
+    "year": 1900,
+    "cal": 260,
+    "protein": 23,
+    "fat": 18,
+    "carbs": 1,
+    "provisional": true
+  },
+  {
+    "name": "Maccheroni alla chitarra",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Abruzzo",
+    "year": 1800,
+    "cal": 200,
+    "protein": 7,
+    "fat": 5,
+    "carbs": 31,
+    "provisional": true
+  },
+  {
+    "name": "Cavatelli molisani",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Molise",
+    "year": 1800,
+    "cal": 220,
+    "protein": 7,
+    "fat": 6,
+    "carbs": 33,
+    "provisional": true
+  },
+  {
+    "name": "Pampanella molisana",
+    "emoji": "🍖",
+    "origin": "Italia",
+    "region": "Molise",
+    "year": 1900,
+    "cal": 250,
+    "protein": 20,
+    "fat": 18,
+    "carbs": 2,
+    "provisional": true
+  },
+  {
+    "name": "Pizza fritta napoletana",
+    "emoji": "🍕",
+    "origin": "Italia",
+    "region": "Campania",
+    "year": 1900,
+    "cal": 300,
+    "protein": 9,
+    "fat": 15,
+    "carbs": 34,
+    "provisional": true
+  },
+  {
+    "name": "Pastiera napoletana",
+    "emoji": "🥧",
+    "origin": "Italia",
+    "region": "Campania",
+    "year": 1800,
+    "cal": 310,
+    "protein": 7,
+    "fat": 14,
+    "carbs": 39,
+    "provisional": true
+  },
+  {
+    "name": "Orecchiette alle cime di rapa",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Puglia",
+    "year": 1900,
+    "cal": 170,
+    "protein": 6,
+    "fat": 6,
+    "carbs": 23,
+    "provisional": true
+  },
+  {
+    "name": "Focaccia barese",
+    "emoji": "🍞",
+    "origin": "Italia",
+    "region": "Puglia",
+    "year": 1900,
+    "cal": 260,
+    "protein": 6,
+    "fat": 9,
+    "carbs": 38,
+    "provisional": true
+  },
+  {
+    "name": "Peperoni cruschi",
+    "emoji": "🌶️",
+    "origin": "Italia",
+    "region": "Basilicata",
+    "year": 1800,
+    "cal": 320,
+    "protein": 7,
+    "fat": 20,
+    "carbs": 28,
+    "provisional": true
+  },
+  {
+    "name": "Lagane e ceci",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Basilicata",
+    "year": 1800,
+    "cal": 180,
+    "protein": 7,
+    "fat": 4,
+    "carbs": 28,
+    "provisional": true
+  },
+  {
+    "name": "Fileja alla 'nduja",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Calabria",
+    "year": 1900,
+    "cal": 260,
+    "protein": 9,
+    "fat": 12,
+    "carbs": 30,
+    "provisional": true
+  },
+  {
+    "name": "Pitta 'mpigliata",
+    "emoji": "🥮",
+    "origin": "Italia",
+    "region": "Calabria",
+    "year": 1800,
+    "cal": 380,
+    "protein": 7,
+    "fat": 18,
+    "carbs": 48,
+    "provisional": true
+  },
+  {
+    "name": "Pasta alla Norma",
+    "emoji": "🍝",
+    "origin": "Italia",
+    "region": "Sicilia",
+    "year": 1900,
+    "cal": 210,
+    "protein": 7,
+    "fat": 9,
+    "carbs": 26,
+    "provisional": true
+  },
+  {
+    "name": "Caponata siciliana",
+    "emoji": "🍆",
+    "origin": "Italia",
+    "region": "Sicilia",
+    "year": 1800,
+    "cal": 130,
+    "protein": 2,
+    "fat": 10,
+    "carbs": 9,
+    "provisional": true
+  },
+  {
+    "name": "Culurgiones",
+    "emoji": "🥟",
+    "origin": "Italia",
+    "region": "Sardegna",
+    "year": 1800,
+    "cal": 210,
+    "protein": 7,
+    "fat": 6,
+    "carbs": 32,
+    "provisional": true
+  },
+  {
+    "name": "Seadas",
+    "emoji": "🍯",
+    "origin": "Italia",
+    "region": "Sardegna",
+    "year": 1800,
+    "cal": 340,
+    "protein": 10,
+    "fat": 17,
+    "carbs": 39,
+    "provisional": true
+  }
+];
+const italianOriginalRegions = {"Pizza Margherita": "Campania", "Pasta alla carbonara": "Lazio", "Tiramisù": "Veneto", "Lasagne alla bolognese": "Emilia-Romagna", "Risotto alla milanese": "Lombardia", "Pesto alla genovese": "Liguria", "Arancini": "Sicilia", "Gnocchi di patate": null, "Panna cotta": "Piemonte", "Parmigiana di melanzane": null};
+const foods = [
+  ...originalFoods.map(food => ({...food, region: italianOriginalRegions[food.name] || null})),
+  ...italianRegionalFoods
+];
+console.assert(originalFoods.length === 100, "Expected 100 original dishes");
+
 
 // Available centuries are derived from the original dish database.
 // Keep intermediate centuries as plausible answers.
@@ -608,6 +1097,22 @@ function trackGameEvent(eventName, details = {}) {
    =================================================== */
 
 let mode = "solo";
+let challenge = "world";
+let challengeCountry = "Italia";
+const regionalLabels = {
+ it: ["Modalità nazione", "Seleziona una regione sulla mappa", "Regione", "Seleziona una regione!", "Italia — Sfida regionale"],
+ en: ["Country Challenge", "Select a region on the map", "Region", "Select a region!", "Italy — Regional Challenge"],
+ fr: ["Défi national", "Sélectionnez une région sur la carte", "Région", "Sélectionnez une région !", "Italie — Défi régional"],
+ es: ["Desafío nacional", "Selecciona una región en el mapa", "Región", "¡Selecciona una región!", "Italia — Desafío regional"],
+ de: ["Länder-Challenge", "Wähle eine Region auf der Karte", "Region", "Wähle eine Region!", "Italien — Regionen-Challenge"]
+};
+const regionalText = (i) => regionalLabels[language][i];
+function startCountryChallenge() {
+  challenge = "italy";
+  mode = "solo";
+  start();
+}
+
 let players = [];
 let scores = {};
 let order = [];
@@ -667,6 +1172,7 @@ function setMode(selected) {
     return;
   }
 
+  challenge = "world";
   mode = selected;
   setText("notice", "");
 
@@ -691,7 +1197,10 @@ function start() {
   }
 
   scores = Object.fromEntries(players.map(name => [name, 0]));
-  order = shuffle(foods).slice(0, 5);
+  const pool = challenge === "italy"
+    ? foods.filter(food => food.origin === "Italia" && food.region)
+    : foods;
+  order = shuffle(pool).slice(0, 5);
 
   history = [];
   guesses = [];
@@ -706,7 +1215,7 @@ function start() {
   render();
 
   trackGameEvent("game_start", {
-    game_mode: mode,
+    game_mode: challenge === "italy" ? "italy" : mode,
     player_count: players.length,
     total_rounds: order.length
   });
@@ -823,6 +1332,67 @@ let selectedCountry = "";
 let mapReady = false;
 let mapLoading = false;
 let mapFailed = false;
+let activeMapKind = null;
+const ITALY_REGIONS = [...new Set(italianRegionalFoods.map(food => food.region))].sort();
+async function fetchRegionData() {
+  const urls = [
+    "https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson",
+    "https://cdn.jsdelivr.net/gh/openpolis/geojson-italy@master/geojson/limits_IT_regions.geojson"
+  ];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.type === "FeatureCollection" && data.features?.length >= 20) return data;
+      }
+    } catch (e) { console.warn("Italy map source unavailable", e); }
+  }
+  throw new Error("Italy regions GeoJSON unavailable");
+}
+const normalizeRegion = name => {
+  const aliases = {"Trentino-Alto Adige/Südtirol":"Trentino-Alto Adige", "Trentino-Alto Adige/Suedtirol":"Trentino-Alto Adige", "Valle d'Aosta/Vallée d'Aoste":"Valle d'Aosta", "Valle d’Aosta":"Valle d'Aosta", "Friuli Venezia Giulia":"Friuli-Venezia Giulia", "Emilia Romagna":"Emilia-Romagna"};
+  return aliases[name] || name;
+};
+async function loadActiveMap() {
+  if (!countryMap) return;
+  const kind = challenge === "italy" ? "italy" : "world";
+  if (activeMapKind === kind && countryLayer) {
+    setTimeout(() => countryMap.invalidateSize(), 150);
+    return;
+  }
+  mapLoading = true;
+  updateMapLabels();
+  try {
+    const data = kind === "italy" ? await fetchRegionData() : await fetchCountryData();
+    if (countryLayer) countryMap.removeLayer(countryLayer);
+    selectedLayer = null;
+    countryLayer = L.geoJSON(data, {
+      style: {color:"#4288a9", weight:1.5, fillColor:"#8ed6ee", fillOpacity:0.5},
+      onEachFeature(feature, layer) {
+        const props = feature.properties || {};
+        const name = kind === "italy"
+          ? normalizeRegion(props.reg_name || props.den_reg || props.name || props.NAME_1 || "")
+          : (props.ADMIN || props.name || props.NAME || props.NAME_EN || "");
+        layer.bindTooltip(name, {sticky:true});
+        layer.on("click", () => selectCountry(name, layer));
+      }
+    }).addTo(countryMap);
+    activeMapKind = kind;
+    mapReady = true;
+    mapFailed = false;
+    show("originFallback",false);
+    $("worldMap").style.display = "block";
+    if (kind === "italy") countryMap.fitBounds(countryLayer.getBounds(), {padding:[12,12]});
+    else countryMap.setView([18,8],2);
+    setTimeout(() => countryMap.invalidateSize(), 180);
+  } catch (error) {
+    console.error(error);
+    mapFailed = true;
+    showMapFallback();
+  } finally { mapLoading = false; updateMapLabels(); }
+}
+
 
 const aliases = {
   Italy: "Italia",
@@ -879,12 +1449,12 @@ function canonicalCountry(value) {
 }
 
 function updateMapLabels() {
-  setText("mapLabel", t("mapLabel"));
+  setText("mapLabel", challenge === "italy" ? regionalText(1) : t("mapLabel"));
 
   setText(
     "selectedCountry",
     selectedCountry
-      ? `${t("selected")}: ${countryName(selectedCountry)}`
+      ? `${t("selected")}: ${challenge === "italy" ? selectedCountry : countryName(selectedCountry)}`
       : t("noCountry")
   );
 
@@ -903,7 +1473,7 @@ function selectCountry(name, layer = null) {
     countryLayer.resetStyle(selectedLayer);
   }
 
-  selectedCountry = canonicalCountry(name);
+  selectedCountry = challenge === "italy" ? name : canonicalCountry(name);
   selectedLayer = layer;
 
   if (layer) {
@@ -940,7 +1510,7 @@ function resetCountryMap() {
     $("worldMap").style.display = "block";
 
     if (mapReady && countryMap) {
-      setTimeout(() => countryMap.invalidateSize(), 150);
+      loadActiveMap();
     } else {
       initializeCountryMap();
     }
@@ -1006,38 +1576,7 @@ async function initializeCountryMap() {
       ).addTo(countryMap);
     }
 
-    const data = await fetchCountryData();
-
-    countryLayer = L.geoJSON(data, {
-      style: {
-        color: "#4288a9",
-        weight: 1,
-        fillColor: "#8ed6ee",
-        fillOpacity: 0.45
-      },
-
-      onEachFeature(feature, layer) {
-        const p = feature.properties || {};
-
-        const name =
-          p.ADMIN ||
-          p.name ||
-          p.NAME ||
-          p.NAME_EN ||
-          "Unknown";
-
-        layer.bindTooltip(name, { sticky: true });
-        layer.on("click", () => selectCountry(name, layer));
-      }
-    }).addTo(countryMap);
-
-    mapReady = true;
-    mapFailed = false;
-
-    show("originFallback", false);
-    $("worldMap").style.display = "block";
-
-    setTimeout(() => countryMap.invalidateSize(), 150);
+    await loadActiveMap();
 
   } catch (error) {
     console.error("Map error:", error);
@@ -1064,14 +1603,14 @@ function showMapFallback() {
 function setupOriginOptions() {
   const previous = $("origin").value;
 
-  const countries = [...new Set(foods.map(food => food.origin))]
+  const countries = challenge === "italy" ? ITALY_REGIONS : [...new Set(foods.map(food => food.origin))]
     .sort((a, b) => countryName(a).localeCompare(countryName(b), language));
 
   $("origin").innerHTML =
     '<option value="">—</option>' +
     countries.map(country => `
       <option value="${escapeHTML(country)}">
-        ${escapeHTML(countryName(country))}
+        ${escapeHTML(challenge === "italy" ? country : countryName(country))}
       </option>
     `).join("");
 
@@ -1157,7 +1696,7 @@ function render() {
 
 function scoreAnswer(answer, food) {
   const countryPoints =
-    canonicalCountry(answer.origin) === canonicalCountry(food.origin)
+    (challenge === "italy" ? normalizeRegion(answer.origin) === food.region : canonicalCountry(answer.origin) === canonicalCountry(food.origin))
       ? 7 : 0;
 
   const difference = Math.abs(answer.century - century(food.year));
@@ -1193,7 +1732,7 @@ function submitGuess(timedOut = false) {
   if (submitted || phase !== "playing") return;
 
   if (!selectedCountry && !timedOut) {
-    alert(t("selectCountry"));
+    alert(challenge === "italy" ? regionalText(3) : t("selectCountry"));
     return;
   }
 
@@ -1269,9 +1808,9 @@ function renderRoundResults() {
     html += `
       <div class="summary">
         <h3>${escapeHTML(entry.player)} — +${r.pts} pt</h3>
-        <p>${escapeHTML(t("country"))}:
-          ${escapeHTML(a.origin ? countryName(a.origin) : "—")}
-          (${escapeHTML(countryName(food.origin))}) — ${r.countryPoints} pt
+        <p>${escapeHTML(challenge === "italy" ? regionalText(2) : t("country"))}:
+          ${escapeHTML(a.origin ? (challenge === "italy" ? a.origin : countryName(a.origin)) : "—")}
+          (${escapeHTML(challenge === "italy" ? food.region : countryName(food.origin))}) — ${r.countryPoints} pt
         </p>
         <p>${escapeHTML(t("centuryShort"))}:
           ${roman(a.century)}
@@ -1420,7 +1959,7 @@ function renderFinalHistory() {
       const r = entry.result;
 
       const rows = [
-        [t("country"), a.origin ? countryName(a.origin) : "—", countryName(food.origin), r.countryPoints],
+        [challenge === "italy" ? regionalText(2) : t("country"), a.origin ? (challenge === "italy" ? a.origin : countryName(a.origin)) : "—", challenge === "italy" ? food.region : countryName(food.origin), r.countryPoints],
         [t("centuryShort"), roman(a.century), roman(century(food.year)), r.centuryPoints],
         ...specs.map(([key, labelKey]) => [
           t(labelKey), a[key], food[key], r.values[key]
@@ -1523,6 +2062,7 @@ function updateLanguage() {
   setText("soloButton", t("solo"));
   setText("partyButton", t("party"));
   setText("onlineButton", t("online"));
+  setText("countryButton", "🇮🇹 " + regionalText(0));
   setText("playersLabel", t("players"));
   setText("startButton", t("start"));
   setText("instructions", t("instructions"));
@@ -1633,6 +2173,7 @@ function initialize() {
   });
 
   phase = "menu";
+  challenge = "world";
 
   show("setup", true);
   show("game", false);
