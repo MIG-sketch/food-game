@@ -3754,12 +3754,6 @@ function render() {
 
   setText("food", food.emoji);
   setText("dish", food.name);
-  if (challenge !== "world") {
-    setText("dishDescription", nationalDishDescription(food));
-    show("dishDescription", true);
-  } else {
-    show("dishDescription", false);
-  }
   setText("submit", t("submit"));
 
   updateBanner();
