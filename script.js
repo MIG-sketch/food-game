@@ -1,124 +1,395 @@
 
 "use strict";
 
-// =====================================================
-// DISHUP! — 100 DISHES EDITION
-// =====================================================
+/* ===================================================
+   DISHUP! — 100 DISHES · 5 LANGUAGES
+   =================================================== */
 
 const $ = id => document.getElementById(id);
-const english = () => language === "en";
+
+const LANGS = ["it", "en", "fr", "es", "de"];
 
 let language = "it";
 
 try {
-  language = localStorage.getItem("foodgame-language") === "en" ? "en" : "it";
+  const saved = localStorage.getItem("foodgame-language");
+  if (LANGS.includes(saved)) language = saved;
 } catch (e) {}
 
-const words = {
-  "Scegli come giocare": "Choose how to play",
-  "Party (stesso schermo)": "Party (shared screen)",
-  "Giocatori (separati da virgole)": "Players (comma-separated)",
-  "Inizia": "Start",
-  "Partita finita!": "Game over!",
-  "Nuova partita": "New game",
-  "Conferma risposte": "Submit answers",
-  "Italia": "Italy",
-  "Giappone": "Japan",
-  "Messico": "Mexico",
-  "India": "India",
-  "Francia": "France",
-  "Perù": "Peru",
-  "Libano": "Lebanon",
-  "Stati Uniti": "United States",
-  "Regno Unito": "United Kingdom",
-  "Spagna": "Spain",
-  "Grecia": "Greece",
-  "Turchia": "Turkey",
-  "Cina": "China",
-  "Corea del Sud": "South Korea",
-  "Thailandia": "Thailand",
-  "Vietnam": "Vietnam",
-  "Indonesia": "Indonesia",
-  "Filippine": "Philippines",
-  "Malesia": "Malaysia",
-  "Singapore": "Singapore",
-  "Pakistan": "Pakistan",
-  "Nepal": "Nepal",
-  "Sri Lanka": "Sri Lanka",
-  "Bangladesh": "Bangladesh",
-  "Iran": "Iran",
-  "Iraq": "Iraq",
-  "Israele": "Israel",
-  "Egitto": "Egypt",
-  "Marocco": "Morocco",
-  "Tunisia": "Tunisia",
-  "Etiopia": "Ethiopia",
-  "Nigeria": "Nigeria",
-  "Ghana": "Ghana",
-  "Senegal": "Senegal",
-  "Sudafrica": "South Africa",
-  "Brasile": "Brazil",
-  "Argentina": "Argentina",
-  "Colombia": "Colombia",
-  "Venezuela": "Venezuela",
-  "Cile": "Chile",
-  "Canada": "Canada",
-  "Germania": "Germany",
-  "Austria": "Austria",
-  "Svizzera": "Switzerland",
-  "Belgio": "Belgium",
-  "Paesi Bassi": "Netherlands",
-  "Portogallo": "Portugal",
-  "Polonia": "Poland",
-  "Ucraina": "Ukraine",
-  "Russia": "Russia",
-  "Ungheria": "Hungary",
-  "Repubblica Ceca": "Czechia",
-  "Svezia": "Sweden",
-  "Danimarca": "Denmark",
-  "Finlandia": "Finland",
-  "Australia": "Australia",
-  "Nuova Zelanda": "New Zealand",
-  "Giamaica": "Jamaica",
-  "Cuba": "Cuba",
-  "Repubblica Dominicana": "Dominican Republic",
-  "Arabia Saudita": "Saudi Arabia",
-  "Giordania": "Jordan",
-  "Georgia": "Georgia"
+/* ===================================================
+   TRANSLATIONS
+   =================================================== */
+
+const I18N = {
+  it: {
+    language: "Lingua",
+    choose: "Scegli come giocare",
+    solo: "🎯 Single player",
+    party: "🎉 Party (stesso schermo)",
+    online: "🌐 Online multiplayer",
+    players: "Giocatori (separati da virgole)",
+    start: "Inizia",
+    unavailable: "Il multiplayer online non è ancora disponibile.",
+    instructions: "Indovina il paese d'origine, il secolo e i valori nutrizionali per 100 g. Le date storiche sono indicative e talvolta controverse.",
+    origin: "Origine",
+    mapLabel: "Origine — seleziona un paese sulla mappa",
+    noCountry: "Nessun paese selezionato",
+    selected: "Selezionato",
+    mapHelp: "Tocca un paese per selezionarlo. Puoi ingrandire e spostare la mappa.",
+    mapLoading: "Caricamento della mappa del mondo...",
+    mapFailed: "Mappa non disponibile. Seleziona un paese dal menu.",
+    century: "Secolo di origine",
+    centuryUnit: "secolo",
+    calories: "Calorie (kcal)",
+    protein: "Proteine (g)",
+    fat: "Grassi (g)",
+    carbs: "Carboidrati (g)",
+    submit: "Conferma risposte",
+    selectCountry: "Seleziona prima un paese!",
+    turn: "Turno di",
+    saved: "Risposte salvate!",
+    passDevice: "Passa il dispositivo a {name}. Le risposte rimangono segrete.",
+    startTurn: "Inizia: {name}",
+    allAnswered: "Tutti hanno risposto!",
+    revealInfo: "Ora puoi rivelare le risposte.",
+    reveal: "Rivela le risposte",
+    results: "Risultati",
+    roundResults: "Risultati del round",
+    country: "Paese",
+    centuryShort: "Secolo",
+    historicalNote: "Nota storica",
+    approximate: "Le date e i valori nutrizionali sono stime indicative per il gioco.",
+    next: "Prossimo piatto →",
+    finalNext: "Classifica finale →",
+    gameOver: "Partita finita!",
+    leaderboard: "Classifica generale",
+    review: "Rivedi le risposte",
+    showAnswers: "Mostra risposte",
+    category: "Categoria",
+    answer: "Risposta",
+    correct: "Corretta",
+    points: "Punti",
+    discover: "Scopri i piatti nella tua città",
+    discoverIntro: "Trova ristoranti che potrebbero servire i piatti del gioco. I risultati si aprono su Google Maps; i menu non sono verificati.",
+    city: "Città",
+    cityPlaceholder: "Es. Barcelona",
+    discoverNote: "Ricerca esterna. L'integrazione con Glovo non è ancora attiva.",
+    newGame: "Nuova partita",
+    confirmExit: "Vuoi tornare al menu principale? La partita attuale andrà persa.",
+    photo: "Foto: Wikipedia / Wikimedia Commons",
+    yourName: "Tu",
+    historicalGeneric: "La data è un riferimento storico indicativo. Le origini della ricetta possono essere controverse."
+  },
+
+  en: {
+    language: "Language",
+    choose: "Choose how to play",
+    solo: "🎯 Single player",
+    party: "🎉 Party (shared screen)",
+    online: "🌐 Online multiplayer",
+    players: "Players (comma-separated)",
+    start: "Start",
+    unavailable: "Online multiplayer is not available yet.",
+    instructions: "Guess the country of origin, century and nutritional values per 100 g. Historical dates are approximate and sometimes disputed.",
+    origin: "Origin",
+    mapLabel: "Origin — select a country on the map",
+    noCountry: "No country selected",
+    selected: "Selected",
+    mapHelp: "Tap a country to select it. Zoom and drag to explore.",
+    mapLoading: "Loading world map...",
+    mapFailed: "Map unavailable. Select a country from the menu.",
+    century: "Century of origin",
+    centuryUnit: "century",
+    calories: "Calories (kcal)",
+    protein: "Protein (g)",
+    fat: "Fat (g)",
+    carbs: "Carbohydrates (g)",
+    submit: "Submit answers",
+    selectCountry: "Select a country first!",
+    turn: "Turn for",
+    saved: "Answers saved!",
+    passDevice: "Pass the device to {name}. Answers remain secret.",
+    startTurn: "Start: {name}",
+    allAnswered: "Everyone has answered!",
+    revealInfo: "You can now reveal the answers.",
+    reveal: "Reveal answers",
+    results: "Results",
+    roundResults: "Round results",
+    country: "Country",
+    centuryShort: "Century",
+    historicalNote: "Historical note",
+    approximate: "Dates and nutritional values are approximate gameplay estimates.",
+    next: "Next dish →",
+    finalNext: "Final leaderboard →",
+    gameOver: "Game over!",
+    leaderboard: "Overall leaderboard",
+    review: "Review answers",
+    showAnswers: "Show answers",
+    category: "Category",
+    answer: "Answer",
+    correct: "Correct",
+    points: "Points",
+    discover: "Find these dishes in your city",
+    discoverIntro: "Find restaurants that may serve the dishes from your game. Results open in Google Maps; menus are not verified.",
+    city: "City",
+    cityPlaceholder: "e.g. Barcelona",
+    discoverNote: "External search only. Glovo integration is not active.",
+    newGame: "New game",
+    confirmExit: "Return to the main menu? Your current game will be lost.",
+    photo: "Photo: Wikipedia / Wikimedia Commons",
+    yourName: "You",
+    historicalGeneric: "This date is an approximate historical reference. The dish's origins may be disputed."
+  },
+
+  fr: {
+    language: "Langue",
+    choose: "Choisissez comment jouer",
+    solo: "🎯 Joueur solo",
+    party: "🎉 Mode groupe (même écran)",
+    online: "🌐 Multijoueur en ligne",
+    players: "Joueurs (séparés par des virgules)",
+    start: "Commencer",
+    unavailable: "Le multijoueur en ligne n'est pas encore disponible.",
+    instructions: "Devinez le pays d'origine, le siècle et les valeurs nutritionnelles pour 100 g. Les dates historiques sont approximatives et parfois contestées.",
+    origin: "Origine",
+    mapLabel: "Origine — sélectionnez un pays sur la carte",
+    noCountry: "Aucun pays sélectionné",
+    selected: "Sélectionné",
+    mapHelp: "Touchez un pays pour le sélectionner. Vous pouvez zoomer et déplacer la carte.",
+    mapLoading: "Chargement de la carte du monde...",
+    mapFailed: "Carte indisponible. Sélectionnez un pays dans le menu.",
+    century: "Siècle d'origine",
+    centuryUnit: "siècle",
+    calories: "Calories (kcal)",
+    protein: "Protéines (g)",
+    fat: "Lipides (g)",
+    carbs: "Glucides (g)",
+    submit: "Valider les réponses",
+    selectCountry: "Sélectionnez d'abord un pays !",
+    turn: "Tour de",
+    saved: "Réponses enregistrées !",
+    passDevice: "Passez l'appareil à {name}. Les réponses restent secrètes.",
+    startTurn: "Commencer : {name}",
+    allAnswered: "Tout le monde a répondu !",
+    revealInfo: "Vous pouvez maintenant révéler les réponses.",
+    reveal: "Révéler les réponses",
+    results: "Résultats",
+    roundResults: "Résultats de la manche",
+    country: "Pays",
+    centuryShort: "Siècle",
+    historicalNote: "Note historique",
+    approximate: "Les dates et les valeurs nutritionnelles sont des estimations pour le jeu.",
+    next: "Plat suivant →",
+    finalNext: "Classement final →",
+    gameOver: "Partie terminée !",
+    leaderboard: "Classement général",
+    review: "Revoir les réponses",
+    showAnswers: "Afficher les réponses",
+    category: "Catégorie",
+    answer: "Réponse",
+    correct: "Correcte",
+    points: "Points",
+    discover: "Découvrez ces plats dans votre ville",
+    discoverIntro: "Trouvez des restaurants susceptibles de servir ces plats. Les résultats s'ouvrent dans Google Maps ; les menus ne sont pas vérifiés.",
+    city: "Ville",
+    cityPlaceholder: "Ex. Barcelone",
+    discoverNote: "Recherche externe uniquement. L'intégration Glovo n'est pas active.",
+    newGame: "Nouvelle partie",
+    confirmExit: "Retourner au menu principal ? La partie en cours sera perdue.",
+    photo: "Photo : Wikipédia / Wikimedia Commons",
+    yourName: "Vous",
+    historicalGeneric: "Cette date est une référence historique approximative. L'origine du plat peut être contestée."
+  },
+
+  es: {
+    language: "Idioma",
+    choose: "Elige cómo jugar",
+    solo: "🎯 Un jugador",
+    party: "🎉 Modo fiesta (misma pantalla)",
+    online: "🌐 Multijugador en línea",
+    players: "Jugadores (separados por comas)",
+    start: "Empezar",
+    unavailable: "El multijugador en línea todavía no está disponible.",
+    instructions: "Adivina el país de origen, el siglo y los valores nutricionales por 100 g. Las fechas históricas son aproximadas y a veces controvertidas.",
+    origin: "Origen",
+    mapLabel: "Origen — selecciona un país en el mapa",
+    noCountry: "Ningún país seleccionado",
+    selected: "Seleccionado",
+    mapHelp: "Toca un país para seleccionarlo. Puedes ampliar y mover el mapa.",
+    mapLoading: "Cargando el mapa del mundo...",
+    mapFailed: "Mapa no disponible. Selecciona un país en el menú.",
+    century: "Siglo de origen",
+    centuryUnit: "siglo",
+    calories: "Calorías (kcal)",
+    protein: "Proteínas (g)",
+    fat: "Grasas (g)",
+    carbs: "Carbohidratos (g)",
+    submit: "Confirmar respuestas",
+    selectCountry: "¡Selecciona primero un país!",
+    turn: "Turno de",
+    saved: "¡Respuestas guardadas!",
+    passDevice: "Pasa el dispositivo a {name}. Las respuestas siguen siendo secretas.",
+    startTurn: "Empezar: {name}",
+    allAnswered: "¡Todos han respondido!",
+    revealInfo: "Ahora puedes revelar las respuestas.",
+    reveal: "Revelar respuestas",
+    results: "Resultados",
+    roundResults: "Resultados de la ronda",
+    country: "País",
+    centuryShort: "Siglo",
+    historicalNote: "Nota histórica",
+    approximate: "Las fechas y los valores nutricionales son estimaciones para el juego.",
+    next: "Siguiente plato →",
+    finalNext: "Clasificación final →",
+    gameOver: "¡Partida terminada!",
+    leaderboard: "Clasificación general",
+    review: "Revisar respuestas",
+    showAnswers: "Mostrar respuestas",
+    category: "Categoría",
+    answer: "Respuesta",
+    correct: "Correcta",
+    points: "Puntos",
+    discover: "Descubre estos platos en tu ciudad",
+    discoverIntro: "Encuentra restaurantes que podrían servir estos platos. Los resultados se abren en Google Maps; los menús no están verificados.",
+    city: "Ciudad",
+    cityPlaceholder: "Ej. Barcelona",
+    discoverNote: "Búsqueda externa. La integración con Glovo no está activa.",
+    newGame: "Nueva partida",
+    confirmExit: "¿Volver al menú principal? Se perderá la partida actual.",
+    photo: "Foto: Wikipedia / Wikimedia Commons",
+    yourName: "Tú",
+    historicalGeneric: "Esta fecha es una referencia histórica aproximada. El origen del plato puede ser controvertido."
+  },
+
+  de: {
+    language: "Sprache",
+    choose: "Wähle deinen Spielmodus",
+    solo: "🎯 Einzelspieler",
+    party: "🎉 Party-Modus (gleicher Bildschirm)",
+    online: "🌐 Online-Mehrspieler",
+    players: "Spieler (durch Kommas getrennt)",
+    start: "Starten",
+    unavailable: "Online-Mehrspieler ist noch nicht verfügbar.",
+    instructions: "Errate das Herkunftsland, das Jahrhundert und die Nährwerte pro 100 g. Historische Datierungen sind ungefähr und manchmal umstritten.",
+    origin: "Herkunft",
+    mapLabel: "Herkunft — wähle ein Land auf der Karte",
+    noCountry: "Kein Land ausgewählt",
+    selected: "Ausgewählt",
+    mapHelp: "Tippe auf ein Land, um es auszuwählen. Du kannst die Karte zoomen und verschieben.",
+    mapLoading: "Weltkarte wird geladen...",
+    mapFailed: "Karte nicht verfügbar. Wähle ein Land aus dem Menü.",
+    century: "Entstehungsjahrhundert",
+    centuryUnit: "Jahrhundert",
+    calories: "Kalorien (kcal)",
+    protein: "Eiweiß (g)",
+    fat: "Fett (g)",
+    carbs: "Kohlenhydrate (g)",
+    submit: "Antworten bestätigen",
+    selectCountry: "Wähle zuerst ein Land!",
+    turn: "Am Zug:",
+    saved: "Antworten gespeichert!",
+    passDevice: "Gib das Gerät an {name} weiter. Die Antworten bleiben geheim.",
+    startTurn: "Start: {name}",
+    allAnswered: "Alle haben geantwortet!",
+    revealInfo: "Jetzt kannst du die Antworten aufdecken.",
+    reveal: "Antworten aufdecken",
+    results: "Ergebnisse",
+    roundResults: "Rundenergebnisse",
+    country: "Land",
+    centuryShort: "Jahrhundert",
+    historicalNote: "Historischer Hinweis",
+    approximate: "Daten und Nährwerte sind ungefähre Schätzungen für das Spiel.",
+    next: "Nächstes Gericht →",
+    finalNext: "Endrangliste →",
+    gameOver: "Spiel beendet!",
+    leaderboard: "Gesamtrangliste",
+    review: "Antworten überprüfen",
+    showAnswers: "Antworten anzeigen",
+    category: "Kategorie",
+    answer: "Antwort",
+    correct: "Richtig",
+    points: "Punkte",
+    discover: "Entdecke diese Gerichte in deiner Stadt",
+    discoverIntro: "Finde Restaurants, die diese Gerichte anbieten könnten. Die Ergebnisse öffnen sich in Google Maps; Speisekarten wurden nicht überprüft.",
+    city: "Stadt",
+    cityPlaceholder: "z. B. Barcelona",
+    discoverNote: "Nur externe Suche. Die Glovo-Integration ist nicht aktiv.",
+    newGame: "Neues Spiel",
+    confirmExit: "Zum Hauptmenü zurückkehren? Das aktuelle Spiel geht verloren.",
+    photo: "Foto: Wikipedia / Wikimedia Commons",
+    yourName: "Du",
+    historicalGeneric: "Dieses Datum ist ein ungefährer historischer Bezugspunkt. Die Herkunft des Gerichts kann umstritten sein."
+  }
 };
 
-function tr(value) {
-  return english() ? (words[value] || value) : value;
+function t(key, replacements = {}) {
+  let value = I18N[language][key] || I18N.en[key] || key;
+
+  for (const [name, replacement] of Object.entries(replacements)) {
+    value = value.replaceAll(`{${name}}`, replacement);
+  }
+
+  return value;
 }
 
-function setText(id, value) {
-  if ($(id)) $(id).textContent = value;
+const countryTranslations = {
+  Italia: ["Italia", "Italy", "Italie", "Italia", "Italien"],
+  Giappone: ["Giappone", "Japan", "Japon", "Japón", "Japan"],
+  Messico: ["Messico", "Mexico", "Mexique", "México", "Mexiko"],
+  India: ["India", "India", "Inde", "India", "Indien"],
+  Francia: ["Francia", "France", "France", "Francia", "Frankreich"],
+  "Stati Uniti": ["Stati Uniti", "United States", "États-Unis", "Estados Unidos", "Vereinigte Staaten"],
+  "Regno Unito": ["Regno Unito", "United Kingdom", "Royaume-Uni", "Reino Unido", "Vereinigtes Königreich"],
+  Perù: ["Perù", "Peru", "Pérou", "Perú", "Peru"],
+  Libano: ["Libano", "Lebanon", "Liban", "Líbano", "Libanon"],
+  Cina: ["Cina", "China", "Chine", "China", "China"],
+  "Corea del Sud": ["Corea del Sud", "South Korea", "Corée du Sud", "Corea del Sur", "Südkorea"],
+  Thailandia: ["Thailandia", "Thailand", "Thaïlande", "Tailandia", "Thailand"],
+  Vietnam: ["Vietnam", "Vietnam", "Vietnam", "Vietnam", "Vietnam"],
+  Indonesia: ["Indonesia", "Indonesia", "Indonésie", "Indonesia", "Indonesien"],
+  Filippine: ["Filippine", "Philippines", "Philippines", "Filipinas", "Philippinen"],
+  Pakistan: ["Pakistan", "Pakistan", "Pakistan", "Pakistán", "Pakistan"],
+  Nepal: ["Nepal", "Nepal", "Népal", "Nepal", "Nepal"],
+  "Sri Lanka": ["Sri Lanka", "Sri Lanka", "Sri Lanka", "Sri Lanka", "Sri Lanka"],
+  Bangladesh: ["Bangladesh", "Bangladesh", "Bangladesh", "Bangladés", "Bangladesch"],
+  Egitto: ["Egitto", "Egypt", "Égypte", "Egipto", "Ägypten"],
+  Tunisia: ["Tunisia", "Tunisia", "Tunisie", "Túnez", "Tunesien"],
+  Marocco: ["Marocco", "Morocco", "Maroc", "Marruecos", "Marokko"],
+  Turchia: ["Turchia", "Turkey", "Turquie", "Turquía", "Türkei"],
+  Iran: ["Iran", "Iran", "Iran", "Irán", "Iran"],
+  Etiopia: ["Etiopia", "Ethiopia", "Éthiopie", "Etiopía", "Äthiopien"],
+  Nigeria: ["Nigeria", "Nigeria", "Nigeria", "Nigeria", "Nigeria"],
+  Ghana: ["Ghana", "Ghana", "Ghana", "Ghana", "Ghana"],
+  Senegal: ["Senegal", "Senegal", "Sénégal", "Senegal", "Senegal"],
+  Sudafrica: ["Sudafrica", "South Africa", "Afrique du Sud", "Sudáfrica", "Südafrika"],
+  "El Salvador": ["El Salvador", "El Salvador", "Salvador", "El Salvador", "El Salvador"],
+  Brasile: ["Brasile", "Brazil", "Brésil", "Brasil", "Brasilien"],
+  Argentina: ["Argentina", "Argentina", "Argentine", "Argentina", "Argentinien"],
+  Colombia: ["Colombia", "Colombia", "Colombie", "Colombia", "Kolumbien"],
+  Venezuela: ["Venezuela", "Venezuela", "Venezuela", "Venezuela", "Venezuela"],
+  Spagna: ["Spagna", "Spain", "Espagne", "España", "Spanien"],
+  Grecia: ["Grecia", "Greece", "Grèce", "Grecia", "Griechenland"],
+  Canada: ["Canada", "Canada", "Canada", "Canadá", "Kanada"],
+  Austria: ["Austria", "Austria", "Autriche", "Austria", "Österreich"],
+  Germania: ["Germania", "Germany", "Allemagne", "Alemania", "Deutschland"],
+  Polonia: ["Polonia", "Poland", "Pologne", "Polonia", "Polen"],
+  Ungheria: ["Ungheria", "Hungary", "Hongrie", "Hungría", "Ungarn"],
+  Giamaica: ["Giamaica", "Jamaica", "Jamaïque", "Jamaica", "Jamaika"],
+  Australia: ["Australia", "Australia", "Australie", "Australia", "Australien"]
+};
+
+function countryName(name) {
+  const values = countryTranslations[name];
+  return values ? values[LANGS.indexOf(language)] : name;
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[c]);
-}
-
-function show(id, visible) {
-  if ($(id)) $(id).classList.toggle("hidden", !visible);
-}
-
-// =====================================================
-// FOOD DATABASE
-// Format:
-// Name | Emoji | Country | Year | kcal | protein | fat | carbs
-// Nutrition is an approximate gameplay estimate per 100 g.
-// Dates are approximate historical reference points.
-// =====================================================
+/* ===================================================
+   DATABASE — EXACTLY 100 DISHES
+   name, emoji, country, approximate year,
+   kcal, protein, fat, carbohydrates per 100 g
+   =================================================== */
 
 const rawFoods = [
-  // 01–10 ITALY
   ["Pizza Margherita","🍕","Italia",1889,250,11,9,31],
   ["Pasta alla carbonara","🍝","Italia",1944,280,12,13,28],
   ["Tiramisù","🍰","Italia",1970,290,6,19,25],
@@ -130,7 +401,6 @@ const rawFoods = [
   ["Panna cotta","🍮","Italia",1900,240,3,18,17],
   ["Parmigiana di melanzane","🍆","Italia",1800,160,7,11,9],
 
-  // 11–20 EAST ASIA
   ["Sushi nigiri","🍣","Giappone",1820,150,7,2,26],
   ["Ramen","🍜","Giappone",1910,110,5,4,13],
   ["Tempura","🍤","Giappone",1700,220,8,13,19],
@@ -142,7 +412,6 @@ const rawFoods = [
   ["Bibimbap","🍚","Corea del Sud",1900,145,6,4,22],
   ["Kimchi","🥬","Corea del Sud",1600,25,2,1,4],
 
-  // 21–30 SOUTHEAST ASIA
   ["Pad Thai","🍜","Thailandia",1930,190,8,7,24],
   ["Tom yum","🍲","Thailandia",1900,55,5,2,5],
   ["Green curry","🍛","Thailandia",1900,160,9,11,7],
@@ -154,7 +423,6 @@ const rawFoods = [
   ["Satay","🍢","Indonesia",1900,230,19,15,5],
   ["Chicken adobo","🍗","Filippine",1700,180,20,10,3],
 
-  // 31–40 SOUTH ASIA
   ["Chicken tikka masala","🍛","Regno Unito",1970,160,13,9,7],
   ["Butter chicken","🍛","India",1950,190,14,13,5],
   ["Biryani","🍚","India",1700,190,9,7,22],
@@ -166,7 +434,6 @@ const rawFoods = [
   ["Kottu roti","🍛","Sri Lanka",1970,210,9,10,20],
   ["Hilsa curry","🐟","Bangladesh",1900,200,16,14,4],
 
-  // 41–50 MIDDLE EAST
   ["Hummus","🫘","Libano",1700,170,7,10,14],
   ["Tabbouleh","🥗","Libano",1900,110,3,7,11],
   ["Falafel","🧆","Egitto",1900,330,13,18,31],
@@ -178,7 +445,6 @@ const rawFoods = [
   ["Baklava","🍯","Turchia",1500,430,6,26,45],
   ["Ghormeh sabzi","🍲","Iran",1800,160,13,9,7],
 
-  // 51–60 AFRICA
   ["Injera","🥞","Etiopia",1500,165,5,1,34],
   ["Doro wat","🍗","Etiopia",1900,180,17,11,5],
   ["Jollof rice","🍚","Nigeria",1900,180,4,6,28],
@@ -190,7 +456,6 @@ const rawFoods = [
   ["Bunny chow","🍞","Sudafrica",1940,210,8,8,27],
   ["Chakalaka","🌶️","Sudafrica",1900,90,2,5,10],
 
-  // 61–70 MEXICO AND CENTRAL AMERICA
   ["Tacos al pastor","🌮","Messico",1960,220,12,10,20],
   ["Nachos","🧀","Messico",1943,310,9,18,29],
   ["Caesar salad","🥗","Messico",1924,190,7,16,5],
@@ -202,7 +467,6 @@ const rawFoods = [
   ["Tamales","🫔","Messico",1500,190,6,9,23],
   ["Pupusas","🫓","El Salvador",1900,240,9,11,26],
 
-  // 71–80 SOUTH AMERICA
   ["Ceviche","🐟","Perù",1900,110,17,2,6],
   ["Lomo saltado","🥩","Perù",1900,180,15,9,10],
   ["Aji de gallina","🍗","Perù",1900,190,12,12,9],
@@ -214,7 +478,6 @@ const rawFoods = [
   ["Arepas","🫓","Colombia",1500,210,5,5,37],
   ["Pabellón criollo","🍛","Venezuela",1900,180,11,7,20],
 
-  // 81–90 EUROPE
   ["Paella valenciana","🥘","Spagna",1850,170,10,5,21],
   ["Tortilla española","🥔","Spagna",1800,180,7,12,11],
   ["Gazpacho","🍅","Spagna",1900,50,1,3,5],
@@ -226,7 +489,6 @@ const rawFoods = [
   ["Fish and chips","🐟","Regno Unito",1860,250,12,13,23],
   ["Shepherd's pie","🥧","Regno Unito",1800,150,9,8,12],
 
-  // 91–100 WORLD SPECIALTIES
   ["Hamburger","🍔","Stati Uniti",1900,260,14,14,20],
   ["Hot dog","🌭","Stati Uniti",1900,290,11,20,18],
   ["Banana split","🍌","Stati Uniti",1904,210,3,9,31],
@@ -247,51 +509,56 @@ const foods = rawFoods.map(row => ({
   cal: row[4],
   protein: row[5],
   fat: row[6],
-  carbs: row[7],
-  yearNote: "Data storica indicativa: l'origine e l'evoluzione della ricetta possono essere controverse."
+  carbs: row[7]
 }));
 
-console.assert(foods.length === 100, "Expected exactly 100 dishes");
+console.assert(foods.length === 100, "Expected 100 dishes");
 
 const specs = [
-  ["cal", "Calorie (kcal)", 900],
-  ["protein", "Proteine (g)", 100],
-  ["fat", "Grassi (g)", 100],
-  ["carbs", "Carboidrati (g)", 100]
+  ["cal", "calories", 900],
+  ["protein", "protein", 100],
+  ["fat", "fat", 100],
+  ["carbs", "carbs", 100]
 ];
 
-// =====================================================
-// GAME STATE
-// =====================================================
+/* ===================================================
+   HELPERS
+   =================================================== */
 
-let mode = "solo";
-let players = ["Tu"];
-let scores = {};
-let order = [];
-let history = [];
-let guesses = [];
-let round = 0;
-let turn = 0;
-let submitted = false;
-let remaining = 60;
-let timerId = null;
+function setText(id, text) {
+  if ($(id)) $(id).textContent = text;
+}
+
+function show(id, visible) {
+  if ($(id)) $(id).classList.toggle("hidden", !visible);
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
 
 function century(year) {
   return Math.ceil(year / 100);
 }
 
-function roman(n) {
-  const parts = [
+function roman(number) {
+  const values = [
     [10, "X"], [9, "IX"], [5, "V"],
     [4, "IV"], [1, "I"]
   ];
 
   let result = "";
 
-  for (const [number, letter] of parts) {
-    while (n >= number) {
-      result += letter;
-      n -= number;
+  for (const [value, symbol] of values) {
+    while (number >= value) {
+      result += symbol;
+      number -= value;
     }
   }
 
@@ -309,13 +576,36 @@ function shuffle(items) {
   return array;
 }
 
+/* ===================================================
+   GAME STATE
+   =================================================== */
+
+let mode = "solo";
+let players = [];
+let scores = {};
+let order = [];
+let history = [];
+let guesses = [];
+
+let round = 0;
+let turn = 0;
+let remaining = 60;
+let timerId = null;
+let submitted = false;
+let phase = "menu";
+
 function updateBanner() {
+  if (phase === "menu") {
+    show("scoreBanner", false);
+    return;
+  }
+
   show("scoreBanner", true);
 
   $("scoreBanner").innerHTML = players.map((name, index) => `
-    <div class="${index === turn ? "active" : ""}">
+    <div class="${phase === "playing" && index === turn ? "active" : ""}">
       ${escapeHTML(name)}: ${scores[name]} pt
-      ${index === turn ? "●" : ""}
+      ${phase === "playing" && index === turn ? "●" : ""}
     </div>
   `).join("");
 }
@@ -329,6 +619,7 @@ function stopTimer() {
 
 function startTimer() {
   stopTimer();
+
   remaining = 60;
   setText("timer", "⏱ 60 s");
 
@@ -345,31 +636,32 @@ function startTimer() {
 
 function setMode(selected) {
   if (selected === "online") {
-    setText(
-      "notice",
-      english()
-        ? "Online multiplayer is not available yet."
-        : "Il multiplayer online non è ancora disponibile."
-    );
+    setText("notice", t("unavailable"));
     return;
   }
 
   mode = selected;
-  show("partySetup", mode === "party");
+  setText("notice", "");
 
-  if (mode === "solo") start();
+  show("partySetup", selected === "party");
+
+  if (selected === "solo") start();
 }
 
 function start() {
-  players = mode === "party"
-    ? [...new Set($("names").value
+  if (mode === "party") {
+    players = [...new Set(
+      $("names").value
         .split(",")
         .map(name => name.trim())
         .filter(Boolean)
-        .slice(0, 8))]
-    : ["Tu"];
+        .slice(0, 8)
+    )];
 
-  if (!players.length) players = ["Giocatore 1"];
+    if (!players.length) players = ["Player 1"];
+  } else {
+    players = [t("yourName")];
+  }
 
   scores = Object.fromEntries(players.map(name => [name, 0]));
   order = shuffle(foods).slice(0, 5);
@@ -378,6 +670,7 @@ function start() {
   guesses = [];
   round = 0;
   turn = 0;
+  phase = "playing";
 
   show("setup", false);
   show("finish", false);
@@ -386,9 +679,37 @@ function start() {
   render();
 }
 
-// =====================================================
-// PHOTOGRAPHS
-// =====================================================
+function returnToMenu() {
+  if (phase === "playing" && !confirm(t("confirmExit"))) {
+    return;
+  }
+
+  stopTimer();
+  photoRequest++;
+
+  phase = "menu";
+  mode = "solo";
+  players = [];
+  scores = {};
+  order = [];
+  history = [];
+  guesses = [];
+  round = 0;
+  turn = 0;
+
+  show("setup", true);
+  show("game", false);
+  show("finish", false);
+  show("partySetup", false);
+  show("scoreBanner", false);
+
+  setText("notice", "");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ===================================================
+   PHOTOS
+   =================================================== */
 
 const photoCache = {};
 let photoRequest = 0;
@@ -396,12 +717,11 @@ let photoRequest = 0;
 async function showDishPhoto(food) {
   const request = ++photoRequest;
   const img = $("dishPhoto");
-  const emoji = $("food");
-  const credit = $("photoCredit");
 
   img.style.display = "none";
   img.removeAttribute("src");
-  emoji.style.display = "block";
+
+  $("food").style.display = "block";
   show("photoCredit", false);
 
   try {
@@ -416,23 +736,24 @@ async function showDishPhoto(food) {
         encodeURIComponent(food.name);
 
       const response = await fetch(endpoint);
-      if (!response.ok) throw Error("Wikipedia request failed");
+
+      if (!response.ok) throw Error("Wikipedia unavailable");
 
       const data = await response.json();
       const page = Object.values(data.query?.pages || {})[0];
 
       url = page?.thumbnail?.source;
 
-      if (!url) throw Error("No photograph");
+      if (!url) throw Error("No image");
 
       photoCache[food.name] = url;
     }
 
     await new Promise((resolve, reject) => {
-      const test = new Image();
-      test.onload = resolve;
-      test.onerror = reject;
-      test.src = url;
+      const probe = new Image();
+      probe.onload = resolve;
+      probe.onerror = reject;
+      probe.src = url;
     });
 
     if (request !== photoRequest) return;
@@ -440,20 +761,20 @@ async function showDishPhoto(food) {
     img.src = url;
     img.alt = food.name;
     img.style.display = "block";
-    emoji.style.display = "none";
 
-    setText("photoCredit", "Foto: Wikipedia / Wikimedia Commons");
+    $("food").style.display = "none";
+    setText("photoCredit", t("photo"));
     show("photoCredit", true);
+
   } catch (error) {
     if (request !== photoRequest) return;
-    emoji.style.display = "block";
-    show("photoCredit", false);
+    $("food").style.display = "block";
   }
 }
 
-// =====================================================
-// WORLD MAP — OPENSTREETMAP
-// =====================================================
+/* ===================================================
+   INTERACTIVE WORLD MAP
+   =================================================== */
 
 let countryMap = null;
 let countryLayer = null;
@@ -471,13 +792,9 @@ const aliases = {
   France: "Francia",
   Peru: "Perù",
   Lebanon: "Libano",
-  "United States of America": "Stati Uniti",
   "United States": "Stati Uniti",
+  "United States of America": "Stati Uniti",
   "United Kingdom": "Regno Unito",
-  Spain: "Spagna",
-  Greece: "Grecia",
-  Turkey: "Turchia",
-  Türkiye: "Turchia",
   China: "Cina",
   "South Korea": "Corea del Sud",
   "Republic of Korea": "Corea del Sud",
@@ -485,52 +802,35 @@ const aliases = {
   Vietnam: "Vietnam",
   Indonesia: "Indonesia",
   Philippines: "Filippine",
-  Malaysia: "Malesia",
-  Singapore: "Singapore",
   Pakistan: "Pakistan",
   Nepal: "Nepal",
   "Sri Lanka": "Sri Lanka",
   Bangladesh: "Bangladesh",
-  Iran: "Iran",
-  Iraq: "Iraq",
-  Israel: "Israele",
   Egypt: "Egitto",
-  Morocco: "Marocco",
   Tunisia: "Tunisia",
+  Morocco: "Marocco",
+  Turkey: "Turchia",
+  Türkiye: "Turchia",
+  Iran: "Iran",
   Ethiopia: "Etiopia",
   Nigeria: "Nigeria",
   Ghana: "Ghana",
   Senegal: "Senegal",
   "South Africa": "Sudafrica",
+  "El Salvador": "El Salvador",
   Brazil: "Brasile",
   Argentina: "Argentina",
   Colombia: "Colombia",
   Venezuela: "Venezuela",
-  Chile: "Cile",
+  Spain: "Spagna",
+  Greece: "Grecia",
   Canada: "Canada",
-  Germany: "Germania",
   Austria: "Austria",
-  Switzerland: "Svizzera",
-  Belgium: "Belgio",
-  Netherlands: "Paesi Bassi",
-  Portugal: "Portogallo",
+  Germany: "Germania",
   Poland: "Polonia",
-  Ukraine: "Ucraina",
-  Russia: "Russia",
   Hungary: "Ungheria",
-  Czechia: "Repubblica Ceca",
-  Sweden: "Svezia",
-  Denmark: "Danimarca",
-  Finland: "Finlandia",
-  Australia: "Australia",
-  "New Zealand": "Nuova Zelanda",
   Jamaica: "Giamaica",
-  Cuba: "Cuba",
-  "Dominican Republic": "Repubblica Dominicana",
-  "Saudi Arabia": "Arabia Saudita",
-  Jordan: "Giordania",
-  Georgia: "Georgia",
-  "El Salvador": "El Salvador"
+  Australia: "Australia"
 };
 
 function canonicalCountry(value) {
@@ -539,28 +839,23 @@ function canonicalCountry(value) {
 }
 
 function updateMapLabels() {
-  setText(
-    "mapLabel",
-    english()
-      ? "Origin — select a country on the map"
-      : "Origine — seleziona un paese sulla mappa"
-  );
+  setText("mapLabel", t("mapLabel"));
 
   setText(
     "selectedCountry",
     selectedCountry
-      ? `${english() ? "Selected" : "Selezionato"}: ${tr(selectedCountry)}`
-      : english() ? "No country selected" : "Nessun paese selezionato"
+      ? `${t("selected")}: ${countryName(selectedCountry)}`
+      : t("noCountry")
   );
 
-  if (mapReady) {
-    setText(
-      "mapHelp",
-      english()
-        ? "Tap a country to select it. Zoom and drag to explore."
-        : "Tocca un paese per selezionarlo. Puoi ingrandire e spostare la mappa."
-    );
-  }
+  setText(
+    "mapHelp",
+    mapFailed
+      ? t("mapFailed")
+      : mapLoading && !mapReady
+        ? t("mapLoading")
+        : t("mapHelp")
+  );
 }
 
 function selectCountry(name, layer = null) {
@@ -597,14 +892,18 @@ function resetCountryMap() {
   $("origin").value = "";
 
   show("mapAnswer", true);
-  show("originFallback", false);
 
-  if (mapReady && countryMap) {
-    setTimeout(() => countryMap.invalidateSize(), 100);
-  } else if (mapFailed) {
+  if (mapFailed) {
     showMapFallback();
   } else {
-    initializeCountryMap();
+    show("originFallback", false);
+    $("worldMap").style.display = "block";
+
+    if (mapReady && countryMap) {
+      setTimeout(() => countryMap.invalidateSize(), 150);
+    } else {
+      initializeCountryMap();
+    }
   }
 
   updateMapLabels();
@@ -620,7 +919,6 @@ async function fetchCountryData() {
   for (const url of sources) {
     try {
       const response = await fetch(url);
-
       if (!response.ok) continue;
 
       const data = await response.json();
@@ -633,29 +931,18 @@ async function fetchCountryData() {
         return data;
       }
     } catch (error) {
-      console.warn("Map source unavailable:", url);
+      console.warn("Country data unavailable:", url);
     }
   }
 
-  throw Error("Country boundaries unavailable");
+  throw Error("Country data unavailable");
 }
 
 async function initializeCountryMap() {
   if (mapReady || mapLoading) return;
 
-  if (mapFailed) {
-    showMapFallback();
-    return;
-  }
-
   mapLoading = true;
-
-  setText(
-    "mapHelp",
-    english()
-      ? "Loading world map..."
-      : "Caricamento della mappa del mondo..."
-  );
+  updateMapLabels();
 
   try {
     if (typeof L === "undefined") {
@@ -700,7 +987,6 @@ async function initializeCountryMap() {
           "Unknown";
 
         layer.bindTooltip(name, { sticky: true });
-
         layer.on("click", () => selectCountry(name, layer));
       }
     }).addTo(countryMap);
@@ -711,15 +997,16 @@ async function initializeCountryMap() {
     show("originFallback", false);
     $("worldMap").style.display = "block";
 
-    updateMapLabels();
-
     setTimeout(() => countryMap.invalidateSize(), 150);
+
   } catch (error) {
-    console.error("DISHUP! map error:", error);
+    console.error("Map error:", error);
     mapFailed = true;
     showMapFallback();
+
   } finally {
     mapLoading = false;
+    updateMapLabels();
   }
 }
 
@@ -727,89 +1014,84 @@ function showMapFallback() {
   $("worldMap").style.display = "none";
   show("originFallback", true);
 
-  setText(
-    "mapHelp",
-    english()
-      ? "Map unavailable. Select a country below."
-      : "Mappa non disponibile. Seleziona un paese dal menu."
-  );
-
   $("origin").onchange = function () {
     selectCountry(this.value);
   };
+
+  updateMapLabels();
 }
 
 function setupOriginOptions() {
-  const names = [...new Set(foods.map(food => food.origin))].sort();
+  const previous = $("origin").value;
+
+  const countries = [...new Set(foods.map(food => food.origin))]
+    .sort((a, b) => countryName(a).localeCompare(countryName(b), language));
 
   $("origin").innerHTML =
     '<option value="">—</option>' +
-    names.map(name =>
-      `<option value="${escapeHTML(name)}">${escapeHTML(tr(name))}</option>`
-    ).join("");
+    countries.map(country => `
+      <option value="${escapeHTML(country)}">
+        ${escapeHTML(countryName(country))}
+      </option>
+    `).join("");
+
+  $("origin").value = previous || selectedCountry || "";
 }
 
-// =====================================================
-// GAME RENDER
-// =====================================================
+/* ===================================================
+   GAME SCREEN
+   =================================================== */
 
 function render() {
+  phase = "playing";
   submitted = false;
 
   const food = order[round];
 
   setText(
     "status",
-    `Round ${round + 1}/${order.length} · ${english() ? "Turn for" : "Turno di"} ${players[turn]}`
+    `Round ${round + 1}/${order.length} · ${t("turn")} ${players[turn]}`
   );
 
   setText("food", food.emoji);
   setText("dish", food.name);
+  setText("submit", t("submit"));
 
   updateBanner();
   showDishPhoto(food);
 
-  const centuryLabel = english()
-    ? "Century of origin"
-    : "Secolo di origine";
-
   let html = `
     <label>
-      ${centuryLabel}:
+      ${escapeHTML(t("century"))}:
       <select id="century">
         ${Array.from({ length: 22 }, (_, i) => {
-          const n = i + 1;
-          return `<option value="${n}" ${n === 20 ? "selected" : ""}>
-            ${roman(n)} ${english() ? "century" : "secolo"}
-          </option>`;
+          const number = i + 1;
+
+          return `
+            <option value="${number}" ${number === 20 ? "selected" : ""}>
+              ${roman(number)} ${escapeHTML(t("centuryUnit"))}
+            </option>
+          `;
         }).join("")}
       </select>
     </label>
   `;
 
-  for (const [key, italianLabel, max] of specs) {
+  for (const [key, labelKey, max] of specs) {
     const initial = Math.floor(max / 2);
-
-    const labels = {
-      cal: "Calories (kcal)",
-      protein: "Protein (g)",
-      fat: "Fat (g)",
-      carbs: "Carbohydrates (g)"
-    };
-
-    const label = english() ? labels[key] : italianLabel;
 
     html += `
       <label>
-        ${label}: <output id="out_${key}">${initial}</output>
+        ${escapeHTML(t(labelKey))}:
+        <output id="out_${key}">${initial}</output>
         <br>
         <input
           type="range"
           id="${key}"
           min="0"
           max="${max}"
-          value="${initial}"
           step="1"
+          value="${initial}"
         >
       </label>
     `;
@@ -837,30 +1119,31 @@ function render() {
   startTimer();
 }
 
-// =====================================================
-// SCORING
-// =====================================================
+/* ===================================================
+   SCORING — MAXIMUM 45 POINTS
+   =================================================== */
 
 function scoreAnswer(answer, food) {
   const countryPoints =
     canonicalCountry(answer.origin) === canonicalCountry(food.origin)
       ? 7 : 0;
 
-  const distance = Math.abs(answer.century - century(food.year));
+  const difference = Math.abs(answer.century - century(food.year));
 
   const centuryPoints =
-    distance === 0 ? 10 : distance === 1 ? 7 : 0;
+    difference === 0 ? 10 :
+    difference === 1 ? 7 : 0;
 
-  let total = countryPoints + centuryPoints;
   const values = {};
+  let total = countryPoints + centuryPoints;
 
   for (const [key] of specs) {
-    const difference = Math.abs(answer[key] - food[key]);
+    const delta = Math.abs(answer[key] - food[key]);
     const tolerance = key === "cal" ? 50 : 5;
 
     const points =
-      difference <= tolerance ? 7 :
-      difference <= tolerance * 2 ? 3 : 0;
+      delta <= tolerance ? 7 :
+      delta <= tolerance * 2 ? 3 : 0;
 
     values[key] = points;
     total += points;
@@ -875,14 +1158,10 @@ function scoreAnswer(answer, food) {
 }
 
 function submitGuess(timedOut = false) {
-  if (submitted) return;
+  if (submitted || phase !== "playing") return;
 
   if (!selectedCountry && !timedOut) {
-    alert(
-      english()
-        ? "Select a country first!"
-        : "Seleziona prima un paese!"
-    );
+    alert(t("selectCountry"));
     return;
   }
 
@@ -898,7 +1177,13 @@ function submitGuess(timedOut = false) {
     answer[key] = Number($(key).value);
   }
 
-  guesses.push({ playerIndex: turn, answer, timedOut });
+  guesses.push({
+    playerIndex: turn,
+    answer,
+    timedOut
+  });
+
+  phase = "handoff";
 
   show("submit", false);
   show("timer", false);
@@ -909,46 +1194,26 @@ function submitGuess(timedOut = false) {
   show("originFallback", false);
   show("handoff", true);
 
+  renderHandoff();
+}
+
+function renderHandoff() {
   if (guesses.length < players.length) {
     const next = players[turn + 1];
 
-    setText(
-      "handoffTitle",
-      english() ? "Answers saved!" : "Risposte salvate!"
-    );
-
-    setText(
-      "handoffText",
-      english()
-        ? `Pass the device to ${next}. Answers remain secret.`
-        : `Passa il dispositivo a ${next}. Le risposte rimangono segrete.`
-    );
-
-    setText(
-      "handoffButton",
-      english() ? `Start: ${next}` : `Inizia: ${next}`
-    );
+    setText("handoffTitle", t("saved"));
+    setText("handoffText", t("passDevice", { name: next }));
+    setText("handoffButton", t("startTurn", { name: next }));
   } else {
-    setText(
-      "handoffTitle",
-      english() ? "Everyone has answered!" : "Tutti hanno risposto!"
-    );
-
-    setText(
-      "handoffText",
-      english()
-        ? "You can now reveal the answers."
-        : "Ora puoi rivelare le risposte."
-    );
-
-    setText(
-      "handoffButton",
-      english() ? "Reveal answers" : "Rivela le risposte"
-    );
+    setText("handoffTitle", t("allAnswered"));
+    setText("handoffText", t("revealInfo"));
+    setText("handoffButton", t("reveal"));
   }
 }
 
 function beginNextPlayer() {
+  if (phase !== "handoff") return;
+
   if (guesses.length === players.length) {
     revealRound();
   } else {
@@ -957,28 +1222,63 @@ function beginNextPlayer() {
   }
 }
 
+function renderRoundResults() {
+  const item = history[history.length - 1];
+  if (!item) return;
+
+  const food = item.food;
+
+  let html = `<h2>${escapeHTML(t("roundResults"))}</h2>`;
+
+  for (const entry of item.entries) {
+    const a = entry.answer;
+    const r = entry.result;
+
+    html += `
+      <div class="summary">
+        <h3>${escapeHTML(entry.player)} — +${r.pts} pt</h3>
+        <p>${escapeHTML(t("country"))}:
+          ${escapeHTML(a.origin ? countryName(a.origin) : "—")}
+          (${escapeHTML(countryName(food.origin))}) — ${r.countryPoints} pt
+        </p>
+        <p>${escapeHTML(t("centuryShort"))}:
+          ${roman(a.century)}
+          (${roman(century(food.year))}) — ${r.centuryPoints} pt
+        </p>
+    `;
+
+    for (const [key, labelKey] of specs) {
+      html += `
+        <p>${escapeHTML(t(labelKey))}:
+          ${a[key]} (${food[key]}) — ${r.values[key]} pt
+        </p>
+      `;
+    }
+
+    html += "</div>";
+  }
+
+  html += `
+    <p class="muted">
+      <b>${escapeHTML(t("historicalNote"))}:</b>
+      ${escapeHTML(t("historicalGeneric"))}
+    </p>
+    <small>${escapeHTML(t("approximate"))}</small>
+  `;
+
+  $("results").innerHTML = html;
+
+  setText(
+    "next",
+    round === order.length - 1 ? t("finalNext") : t("next")
+  );
+}
+
 function revealRound() {
   stopTimer();
 
+  phase = "results";
   const food = order[round];
-
-  show("handoff", false);
-  show("results", true);
-  show("next", true);
-  show("mapAnswer", false);
-  show("originFallback", false);
-  show("food", true);
-  show("dish", true);
-
-  setText("food", food.emoji);
-  setText("dish", food.name);
-
-  showDishPhoto(food);
-
-  setText(
-    "status",
-    `Round ${round + 1}/${order.length} · ${english() ? "Results" : "Risultati"}`
-  );
 
   const entries = guesses.map(guess => {
     const player = players[guess.playerIndex];
@@ -996,69 +1296,61 @@ function revealRound() {
 
   history.push({ food, entries });
 
-  let html = `<h2>${english() ? "Round results" : "Risultati del round"}</h2>`;
+  show("handoff", false);
+  show("results", true);
+  show("next", true);
+  show("mapAnswer", false);
+  show("originFallback", false);
+  show("food", true);
+  show("dish", true);
 
-  for (const entry of entries) {
-    const a = entry.answer;
-    const r = entry.result;
+  setText("food", food.emoji);
+  setText("dish", food.name);
 
-    html += `
-      <div class="summary">
-        <h3>${escapeHTML(entry.player)} — +${r.pts} pt</h3>
-        <p>${english() ? "Country" : "Paese"}:
-          ${escapeHTML(a.origin || "—")}
-          (${escapeHTML(food.origin)}) — ${r.countryPoints} pt
-        </p>
-        <p>${english() ? "Century" : "Secolo"}:
-          ${roman(a.century)}
-          (${roman(century(food.year))}) — ${r.centuryPoints} pt
-        </p>
-    `;
-
-    for (const [key, label] of specs) {
-      html += `
-        <p>${escapeHTML(label)}:
-          ${a[key]} (${food[key]}) — ${r.values[key]} pt
-        </p>
-      `;
-    }
-
-    html += "</div>";
-  }
-
-  html += `
-    <p class="muted">
-      <b>${english() ? "Historical note" : "Nota storica"}:</b>
-      ${escapeHTML(food.yearNote)}
-    </p>
-    <small>
-      ${english()
-        ? "Dates and nutrition values are approximate gameplay estimates."
-        : "Date e valori nutrizionali sono stime indicative per il gioco."}
-    </small>
-  `;
-
-  $("results").innerHTML = html;
-  updateBanner();
+  showDishPhoto(food);
 
   setText(
-    "next",
-    round === order.length - 1
-      ? english() ? "Final leaderboard →" : "Classifica finale →"
-      : english() ? "Next dish →" : "Prossimo piatto →"
+    "status",
+    `Round ${round + 1}/${order.length} · ${t("results")}`
   );
+
+  renderRoundResults();
+  updateBanner();
 }
 
-// =====================================================
-// FINAL RESULTS
-// =====================================================
+function advance() {
+  if (phase !== "results") return;
+
+  stopTimer();
+
+  round++;
+  turn = 0;
+  guesses = [];
+
+  if (round >= order.length) {
+    phase = "finished";
+
+    show("game", false);
+    show("finish", true);
+
+    renderFinal();
+    updateBanner();
+    return;
+  }
+
+  render();
+}
+
+/* ===================================================
+   FINAL RESULTS
+   =================================================== */
 
 function renderFinalHistory() {
   const ranking = Object.entries(scores)
     .sort((a, b) => b[1] - a[1]);
 
   let html = `
-    <h3>${english() ? "Overall leaderboard" : "Classifica generale"}</h3>
+    <h3>${escapeHTML(t("leaderboard"))}</h3>
     <div class="final-ranking">
   `;
 
@@ -1072,7 +1364,7 @@ function renderFinalHistory() {
   });
 
   html += "</div>";
-  html += `<h3>${english() ? "Review answers" : "Rivedi le risposte"}</h3>`;
+  html += `<h3>${escapeHTML(t("review"))}</h3>`;
 
   history.forEach((item, index) => {
     const food = item.food;
@@ -1081,7 +1373,7 @@ function renderFinalHistory() {
       <details class="history-round">
         <summary>
           Round ${index + 1} · ${escapeHTML(food.name)}
-          <span class="muted">${english() ? "Show answers" : "Mostra risposte"}</span>
+          <span class="muted">${escapeHTML(t("showAnswers"))}</span>
         </summary>
     `;
 
@@ -1090,12 +1382,11 @@ function renderFinalHistory() {
       const r = entry.result;
 
       const rows = [
-        ["Paese", a.origin || "—", food.origin, r.countryPoints],
-        ["Secolo", roman(a.century), roman(century(food.year)), r.centuryPoints],
-        ["Calorie", a.cal, food.cal, r.values.cal],
-        ["Proteine", a.protein, food.protein, r.values.protein],
-        ["Grassi", a.fat, food.fat, r.values.fat],
-        ["Carboidrati", a.carbs, food.carbs, r.values.carbs]
+        [t("country"), a.origin ? countryName(a.origin) : "—", countryName(food.origin), r.countryPoints],
+        [t("centuryShort"), roman(a.century), roman(century(food.year)), r.centuryPoints],
+        ...specs.map(([key, labelKey]) => [
+          t(labelKey), a[key], food[key], r.values[key]
+        ])
       ];
 
       html += `
@@ -1105,10 +1396,10 @@ function renderFinalHistory() {
             <table>
               <thead>
                 <tr>
-                  <th>${english() ? "Category" : "Categoria"}</th>
-                  <th>${english() ? "Answer" : "Risposta"}</th>
-                  <th>${english() ? "Correct" : "Corretta"}</th>
-                  <th>${english() ? "Points" : "Punti"}</th>
+                  <th>${escapeHTML(t("category"))}</th>
+                  <th>${escapeHTML(t("answer"))}</th>
+                  <th>${escapeHTML(t("correct"))}</th>
+                  <th>${escapeHTML(t("points"))}</th>
                 </tr>
               </thead>
               <tbody>
@@ -1134,51 +1425,19 @@ function renderFinalHistory() {
   return html;
 }
 
-function advance() {
-  stopTimer();
-  round++;
-  turn = 0;
-  guesses = [];
-
-  if (round >= order.length) {
-    show("game", false);
-    show("finish", true);
-    renderFinal();
-    return;
-  }
-
-  render();
-}
-
-// =====================================================
-// DISCOVER RESTAURANTS
-// =====================================================
+/* ===================================================
+   RESTAURANT DISCOVERY
+   =================================================== */
 
 function renderDiscovery() {
   const city = $("cityInput").value.trim();
 
-  setText(
-    "discoverTitle",
-    english()
-      ? "Find these dishes in your city"
-      : "Scopri i piatti nella tua città"
-  );
+  setText("discoverTitle", t("discover"));
+  setText("discoverIntro", t("discoverIntro"));
+  setText("discoverNote", t("discoverNote"));
+  setText("cityLabel", t("city"));
 
-  setText(
-    "discoverIntro",
-    english()
-      ? "Find restaurants that may serve the dishes from your game. Results open in Google Maps."
-      : "Trova ristoranti che potrebbero servire i piatti del gioco. I risultati si aprono su Google Maps."
-  );
-
-  setText(
-    "discoverNote",
-    english()
-      ? "External search only. Glovo integration is not active."
-      : "Ricerca esterna. L'integrazione con Glovo non è ancora attiva."
-  );
-
-  $("cityInput").placeholder = english() ? "e.g. Barcelona" : "Es. Barcelona";
+  $("cityInput").placeholder = t("cityPlaceholder");
 
   $("dishLinks").innerHTML = history.map(item => {
     const food = item.food;
@@ -1205,40 +1464,126 @@ function renderDiscovery() {
 }
 
 function renderFinal() {
+  setText("finishTitle", t("gameOver"));
+  setText("newGameButton", t("newGame"));
+
   $("leaderboard").innerHTML = renderFinalHistory();
   renderDiscovery();
 }
 
-// =====================================================
-// LANGUAGE
-// =====================================================
+/* ===================================================
+   LANGUAGE SWITCHING
+   =================================================== */
 
 function updateLanguage() {
   document.documentElement.lang = language;
   $("languageSelect").value = language;
 
-  setText("languageLabel", english() ? "Language" : "Lingua");
-
-  document.querySelectorAll(
-    "#setup h2, #setup button, #partySetup p, #partySetup button, #finish > h2, #finish > button"
-  ).forEach(element => {
-    if (!element.dataset.originalText) {
-      element.dataset.originalText = element.textContent.trim();
-    }
-
-    element.textContent = tr(element.dataset.originalText);
-  });
+  setText("languageLabel", t("language"));
+  setText("setupTitle", t("choose"));
+  setText("soloButton", t("solo"));
+  setText("partyButton", t("party"));
+  setText("onlineButton", t("online"));
+  setText("playersLabel", t("players"));
+  setText("startButton", t("start"));
+  setText("instructions", t("instructions"));
+  setText("fallbackLabel", t("origin"));
+  setText("submit", t("submit"));
 
   setupOriginOptions();
   updateMapLabels();
 
-  if (!$("finish").classList.contains("hidden")) {
+  if (phase === "playing") {
+    // Preserve all current slider and century values.
+    const current = {};
+
+    for (const [key] of specs) {
+      if ($(key)) current[key] = $(key).value;
+    }
+
+    const oldCentury = $("century")?.value;
+
+    // Rebuild only the answer controls.
+    const centuryOptions = Array.from({ length: 22 }, (_, i) => {
+      const number = i + 1;
+
+      return `
+        <option value="${number}">
+          ${roman(number)} ${escapeHTML(t("centuryUnit"))}
+        </option>
+      `;
+    }).join("");
+
+    let html = `
+      <label>
+        ${escapeHTML(t("century"))}:
+        <select id="century">${centuryOptions}</select>
+      </label>
+    `;
+
+    for (const [key, labelKey, max] of specs) {
+      const value = current[key] ?? Math.floor(max / 2);
+
+      html += `
+        <label>
+          ${escapeHTML(t(labelKey))}:
+          <output id="out_${key}">${value}</output>
+          <br>
+          <input type="range"
+            id="${key}"
+            min="0"
+            max="${max}"
+            step="1"
+            value="${value}">
+        </label>
+      `;
+    }
+
+    $("sliders").innerHTML = html;
+
+    $("century").value = oldCentury || "20";
+
+    for (const [key] of specs) {
+      $(key).addEventListener("input", event => {
+        setText(`out_${key}`, event.target.value);
+      });
+    }
+
+    setText(
+      "status",
+      `Round ${round + 1}/${order.length} · ${t("turn")} ${players[turn]}`
+    );
+  }
+
+  if (phase === "handoff") {
+    renderHandoff();
+  }
+
+  if (phase === "results") {
+    setText(
+      "status",
+      `Round ${round + 1}/${order.length} · ${t("results")}`
+    );
+    renderRoundResults();
+  }
+
+  if (phase === "finished") {
     renderFinal();
+  }
+
+  if ($("notice").textContent.trim()) {
+    setText("notice", t("unavailable"));
+  }
+
+  if (!$("photoCredit").classList.contains("hidden")) {
+    setText("photoCredit", t("photo"));
   }
 }
 
 function setLanguage(value) {
-  language = value === "en" ? "en" : "it";
+  if (!LANGS.includes(value)) return;
+
+  language = value;
 
   try {
     localStorage.setItem("foodgame-language", language);
@@ -1247,20 +1592,26 @@ function setLanguage(value) {
   updateLanguage();
 }
 
-// =====================================================
-// INITIALIZATION
-// =====================================================
+/* ===================================================
+   INITIALIZATION
+   =================================================== */
 
 function initialize() {
   $("cityInput").addEventListener("input", renderDiscovery);
 
-  updateLanguage();
+  $("origin").addEventListener("change", function () {
+    if (mapFailed) selectCountry(this.value);
+  });
+
+  phase = "menu";
 
   show("setup", true);
   show("game", false);
   show("finish", false);
   show("partySetup", false);
   show("scoreBanner", false);
+
+  updateLanguage();
 }
 
 if (document.readyState === "loading") {
