@@ -222,7 +222,7 @@
       <button id="onlineButton" onclick="setMode('online')">
         🌐 Online multiplayer
       </button>
-      <button id="countryButton" onclick="startCountryChallenge()">🇮🇹 Modalità nazione</button>
+      <button id="countryButton" onclick="openCountrySelector()">🇮🇹 Modalità nazione</button>
     </div>
 
     <!-- EXPLANATION: IN THE MAIN MENU, BELOW THE THREE BUTTONS -->
@@ -362,7 +362,24 @@
   <!-- LIBRARIES + GAME ENGINE -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="./script.js?v=country1"></script>
+
+  <!-- Country selection dialog; only verified/implemented countries are enabled -->
+  <dialog id="countrySelector" aria-labelledby="countrySelectorTitle" style="border:1px solid #8cc8e4;border-radius:18px;padding:22px;max-width:480px;width:calc(100% - 32px);background:#fff;color:#12364b;box-shadow:0 20px 70px #12364b55">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <h2 id="countrySelectorTitle" style="margin:0">Choose a country</h2>
+      <button type="button" onclick="closeCountrySelector()" aria-label="Close" style="width:auto">✕</button>
+    </div>
+    <p id="countrySelectorHint">Choose a country to guess the region of origin.</p>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+      <button type="button" onclick="selectCountryChallenge('italy')">🇮🇹 Italia</button>
+      <button type="button" onclick="selectCountryChallenge('france')">🇫🇷 France</button>
+      <button type="button" onclick="selectCountryChallenge('spain')">🇪🇸 España</button>
+      <button type="button" onclick="selectCountryChallenge('japan')">🇯🇵 日本</button>
+      <button type="button" onclick="selectCountryChallenge('mexico')">🇲🇽 México</button>
+      <button type="button" onclick="selectCountryChallenge('india')">🇮🇳 India</button>
+    </div>
+  </dialog>
+  <script src="./script.js?v=multicountry1"></script>
 
   <!-- DISH DESCRIPTIONS -->
 
