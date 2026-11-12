@@ -379,7 +379,7 @@
       <button type="button" onclick="selectCountryChallenge('india')">🇮🇳 India</button>
     </div>
   </dialog>
-  <script src="./script.js?v=mapsv2-maps-recovery-2"></script>
+  <script src="./script.js?v=maps-fixed-4"></script>
 
   <!-- DISH DESCRIPTIONS -->
 
@@ -1126,7 +1126,14 @@
       const language = document.getElementById("languageSelect")?.value || "it";
       const description =
         (translatedDescriptions[language] || englishDescriptions)[name] ||
-        englishDescriptions[name];
+        englishDescriptions[name] ||
+        ((typeof challenge !== "undefined" && challenge !== "world")
+          ? ({it:"Una specialità gastronomica locale. Descrizione dettagliata in preparazione.",
+              en:"A local culinary specialty. Detailed description coming soon.",
+              fr:"Une spécialité culinaire locale. Description détaillée à venir.",
+              es:"Una especialidad culinaria local. Descripción detallada próximamente.",
+              de:"Eine lokale kulinarische Spezialität. Ausführliche Beschreibung folgt."}[language] || "A local culinary specialty.")
+          : "");
 
       const gameVisible =
         !gameElement.classList.contains("hidden");
